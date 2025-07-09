@@ -1,18 +1,24 @@
 # kemutil
 
-<!-- Brief description of the project -->
+A little helper to make your life easier when working with projects!
 
-## Welcome
+## Installation
 
-<!-- Project presentation, motivation, and main features -->
+You can install `kemutil` by running:
 
-## Demo
-
-<!-- If applicable, project demo (video, screenshots, asciicinema, ...) -->
+```bash
+go install github.com/kemadev/kemutil@latest
+```
 
 ## Getting Started
 
-<!-- Basic usage and main commands -->
+You can run `kemutil` by running:
+
+```bash
+kemutil [command] [flags]
+```
+
+- Simply run `kemutil help` to see the list of available commands and their usage.
 
 ## Contributing
 
