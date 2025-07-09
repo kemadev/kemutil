@@ -82,7 +82,7 @@ FROM --platform=${BUILDPLATFORM} base AS build
 RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=cache,target=/root/.cache \
 	--mount=type=bind,source=.,target=. \
-	go build -ldflags='-s -w' -o /usr/local/bin/app ./cmd/main
+	go build -ldflags='-s -w' -o /usr/local/bin/app .
 
 # hadolint ignore=DL3007
 FROM gcr.io/distroless/static-debian12:nonroot AS main
