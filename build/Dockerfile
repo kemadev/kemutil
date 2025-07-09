@@ -85,6 +85,20 @@ RUN --mount=type=cache,target=/root/go/pkg \
 	go build -ldflags='-s -w' -o /usr/local/bin/app .
 
 # hadolint ignore=DL3007
+FROM gcr.io/distroless/static-debian12:nonroot AS goreleaser
+
+LABEL org.opencontainers.image.authors="kemadev"
+LABEL org.opencontainers.image.url="ghcr.io/kemadev/kemutil"
+LABEL org.opencontainers.image.documentation="https://github.com/kemadev/kemutil"
+LABEL org.opencontainers.image.source="https://github.com/kemadev/kemutil"
+LABEL org.opencontainers.image.vendor="kemadev"
+LABEL org.opencontainers.image.licenses="MPL-2.0"
+
+COPY kemutil /app
+
+CMD ["/app"]
+
+# hadolint ignore=DL3007
 FROM gcr.io/distroless/static-debian12:nonroot AS main
 
 LABEL org.opencontainers.image.authors="kemadev"
