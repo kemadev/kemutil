@@ -4,17 +4,16 @@ FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS go-deps
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Docker buildx ARGs
-ARG TARGETOS
-ARG TARGETARCH
+ARG BUILDPLATFORM
 
 WORKDIR /deps
 
 # hadolint ignore=DL3018
 RUN apk add --no-cache curl grep tar gzip zip
 
-ENV GOOS=${TARGETOS} GOARCH=${TARGETARCH}
+ENV BUILDPLATFORM=${BUILDPLATFORM}
 
-RUN --mount=type=bind,source=go.mod,target=go.mod curl -sSL "https://go.dev/dl/go$(grep -oP 'go\s+\K([0-9.]+)' <go.mod).${GOOS}-${GOARCH}.tar.gz" | tar -C /usr/local -xz
+RUN --mount=type=bind,source=go.mod,target=go.mod curl -sSL "https://go.dev/dl/go$(grep -oP 'go\s+\K([0-9.]+)' <go.mod).$(echo ${BUILDPLATFORM} | sed 's|/|-|g').tar.gz" | tar -C /usr/local -xz
 
 # Ensure future GOPATH exists
 RUN mkdir -p /root/go
