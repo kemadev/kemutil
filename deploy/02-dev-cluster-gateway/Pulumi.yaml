@@ -1,0 +1,6 @@
+name: github-com-kemadev-kemutil-deploy-02-dev-cluster-gateway
+description: Dev cluster creation for kemutil
+runtime: go
+config: {}
+backend:
+  url: file://./pulumi-backend
