@@ -1,3 +1,18 @@
+<div align=center>
+  <img alt="Go - CD - main" src="https://github.com/kemadev/kemutil/actions/workflows/go-cd.yaml/badge.svg?branch=main&event=push">
+  <img alt="Go - CD - next" src="https://github.com/kemadev/kemutil/actions/workflows/go-cd.yaml/badge.svg?branch=next&event=push">
+  <img alt="Go - Release" src="https://github.com/kemadev/kemutil/actions/workflows/go-release.yaml/badge.svg?event=push">
+  <img alt="Docker - CI" src="https://github.com/kemadev/kemutil/actions/workflows/docker-ci.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Global - CI" src="https://github.com/kemadev/kemutil/actions/workflows/global-ci.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Go - CI" src="https://github.com/kemadev/kemutil/actions/workflows/go-ci.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Housekeeping - Repo template staleness check" src="https://github.com/kemadev/kemutil/actions/workflows/repo-template-stale.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Housekeeping - Branches staleness check" src="https://github.com/kemadev/kemutil/actions/workflows/branch-stale.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Housekeeping - Issues & PRs staleness housekeeping" src="https://github.com/kemadev/kemutil/actions/workflows/issue-pr-stale.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Markdown - CI" src="https://github.com/kemadev/kemutil/actions/workflows/markdown-ci.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Shell - CI" src="https://github.com/kemadev/kemutil/actions/workflows/shell-ci.yaml/badge.svg?branch=main&event=schedule">
+  <img alt="Workflows - CI" src="https://github.com/kemadev/kemutil/actions/workflows/workflow-action-ci.yaml/badge.svg?branch=main&event=schedule">
+</div>
+
 # kemutil
 
 A little helper to make your life easier when working with projects!

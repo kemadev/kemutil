@@ -1,0 +1,13 @@
+site:
+  title: kemadev-kemutil documentation
+  robots: allow
+content:
+  tags:
+    - v*
+  edit_url: '{web_url}/tree/{refname}/{path}'
+  sources:
+    - url: '.'
+ui:
+  bundle:
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+    snapshot: true

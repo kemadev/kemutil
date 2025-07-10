@@ -166,20 +166,38 @@ changelog:
     - title: Breaking Changes 💥
       regexp: '^.*?[[:word:]](\([[:word:]]+\))??!:.+$'
       order: 0
-    - title: Security Updates 🔒
-      regexp: '^.*?security(\([[:word:]]+\))??!?:.+$'
+    - title: Reverts ⏪
+      regexp: '^.*?revert(\([[:word:]]+\))??!?:.+$'
       order: 100
     - title: New Features 🚀
       regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
       order: 200
+    - title: Bug Fixes 🐛
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 300
     - title: Performance Improvements ⚡
       regexp: '^.*?perf(\([[:word:]]+\))??!?:.+$'
-      order: 300
-    - title: Bug Fixes 🐛
-      regexp: '^.*?bug(\([[:word:]]+\))??!?:.+$'
       order: 400
-    - title: Dependencies Updates 📦
-      regexp: '^.*?chore(\(deps\))??!?:.+$'
+    - title: Refactoring 🛠️
+      regexp: '^.*?refactor(\([[:word:]]+\))??!?:.+$'
       order: 500
+    - title: Tests ✅
+      regexp: '^.*?test(\([[:word:]]+\))??!?:.+$'
+      order: 600
+    - title: Code Style 🎨
+      regexp: '^.*?style(\([[:word:]]+\))??!?:.+$'
+      order: 700
+    - title: Build System 🏗️
+      regexp: '^.*?build(\([[:word:]]+\))??!?:.+$'
+      order: 800
+    - title: Continuous Integration 🤖
+      regexp: '^.*?ci(\([[:word:]]+\))??!?:.+$'
+      order: 900
+    - title: Documentation 📚
+      regexp: '^.*?docs(\([[:word:]]+\))??!?:.+$'
+      order: 950
+    - title: Chores 🧹
+      regexp: '^.*?chore(\([[:word:]]+\))??!?:.+$'
+      order: 970
     - title: Other Changes 🔄
       order: 999

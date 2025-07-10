@@ -211,7 +211,7 @@ linters:
           COMPANY: kemadev
           LICENSE: MPL-2.0
       template: |-
-        {{ COMPANY }} {{ YEAR }}
+        Copyright {{ YEAR }} {{ COMPANY }}
         SPDX-License-Identifier: {{ LICENSE }}
     iface:
       enable:
