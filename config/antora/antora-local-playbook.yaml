@@ -2,6 +2,7 @@ site:
   title: kemadev-kemutil documentation
   robots: allow
   start_page: kemutil::index.adoc
+  url: /kemadev/kemutil
 content:
   edit_url: '{web_url}/tree/{refname}/{path}'
   sources:
