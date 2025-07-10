@@ -87,12 +87,15 @@ RUN --mount=type=cache,target=/root/go/pkg \
 FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS doc-build
 
 RUN apk add --no-cache git npm
+# TODO Add renovate tracking
 RUN npm i -g @antora/cli@3.1 @antora/site-generator@3.1
 
 WORKDIR /src
 
-RUN --mount=type=bind,source=.,target=. \
-	antora doc/antora-playbook.yaml
+COPY . .
+RUN mv config/antora/antora-local-playbook.yaml antora-local-playbook.yaml && \
+	echo "version: dev" >> doc/antora.yml && \
+	antora antora-local-playbook.yaml
 
 # TODO Add renovate tracking
 FROM docker.io/nginx:1.29.0 AS doc-serve
