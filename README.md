@@ -50,6 +50,11 @@ kemutil [command] [flags]
 - Microservices are small, loosely coupled, and independently deployable and scalable
 - Each microservice should be agnostic of it downstreams. However, it should expose a clear and well-defined API to its downstreams for them to consume (that is, the microservice itself uses its upstreams' API)
 
+### Documentation
+
+- Go code documentation is accessible thanks to [pkgsite](https://pkg.go.dev/golang.org/x/pkgsite/cmd/pkgsite)! Just run `pkgsite` in the root of the project to serve its documentation
+- Global project documentation is available in the [doc](./doc) directory. You can view it [directly in your browser](https://github.com/kemadev/kemutil/tree/main/doc)
+
 ### Development Guidelines and Conventions
 
 - All major directories contain a `PURPOSE.md` file with a brief description of directory's content and instructions on how to use it
