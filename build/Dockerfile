@@ -83,6 +83,22 @@ RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=bind,source=.,target=. \
 	go build -ldflags='-s -w' -o /usr/local/bin/app .
 
+# TODO Add renovate tracking
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS doc-build
+
+RUN apk add --no-cache git npm
+RUN npm i -g @antora/cli@3.1 @antora/site-generator@3.1
+
+WORKDIR /src
+
+RUN --mount=type=bind,source=.,target=. \
+	antora doc/antora-playbook.yaml
+
+# TODO Add renovate tracking
+FROM docker.io/nginx:1.29.0 AS doc-serve
+
+COPY --from=doc-build /src/build/site /usr/share/nginx/html
+
 # hadolint ignore=DL3007
 FROM gcr.io/distroless/static-debian12:nonroot AS goreleaser
 
