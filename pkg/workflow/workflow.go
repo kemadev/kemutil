@@ -107,7 +107,7 @@ func Ci(cmd *cobra.Command, _ []string) error {
 }
 
 // Custom runs custom commands using the CI/CD runner.
-func Custom(_ *cobra.Command, args []string) error {
+func Custom(cmd *cobra.Command, args []string) error {
 	slog.Debug("Running workflow custom")
 
 	imageURL := getImageURL()
@@ -123,6 +123,12 @@ func Custom(_ *cobra.Command, args []string) error {
 		slog.Debug("Debug mode is enabled, adding debug flag to base arguments")
 
 		baseArgs = append(baseArgs, "-e", "RUNNER_DEBUG=1")
+	}
+
+	if cmd.Flag("silent").Value.String() == "true" {
+		slog.Debug("Silent mode is enabled, adding silent flag to base arguments")
+
+		baseArgs = append(baseArgs, "-e", "RUNNER_SILENT=1")
 	}
 
 	baseArgs = append(baseArgs, strings.TrimPrefix(imageURL.String(), "//"))
