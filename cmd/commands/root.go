@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Short:  "Little helpers for easy development",
 	Long:   `kemutil is a collection of small utilities to help with development tasks`,
 	Args:   cobra.MinimumNArgs(1),
-	PreRun: toggleDebug,
+	PreRun: setLogLevel,
 }
 
 // Execute runs the root command, and thus its subcommands.

@@ -10,7 +10,7 @@ var iacCmd = &cobra.Command{
 	Short: "Wrapper for IaC tasks",
 	Long:  `Run everyday IaC tasks like initializing a Iac stack, deploying it, ...`,
 	Args:  cobra.ExactArgs(1),
-	PreRun: toggleDebug,
+	PreRun: setLogLevel,
 }
 
 var iacInit = &cobra.Command{
@@ -19,7 +19,7 @@ var iacInit = &cobra.Command{
 	Long:  `Initialize a Pulumi stack in the current directory, using a template`,
 	RunE:  iac.Init,
 	Args:  cobra.NoArgs,
-	PreRun: toggleDebug,
+	PreRun: setLogLevel,
 }
 
 func init() {

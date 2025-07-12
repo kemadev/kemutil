@@ -13,7 +13,7 @@ var workflowCmd = &cobra.Command{
 	Short: "Run workflows",
 	Long:  `Run workflows that usually run in CI/CD pipelines, locally`,
 	Args:  cobra.MinimumNArgs(1),
-	PreRun: toggleDebug,
+	PreRun: setLogLevel,
 }
 
 var workflowCiCmd = &cobra.Command{
@@ -22,7 +22,7 @@ var workflowCiCmd = &cobra.Command{
 	Long:  `Run all CI pipelines`,
 	RunE:  workflow.Ci,
 	Args:  cobra.NoArgs,
-	PreRun: toggleDebug,
+	PreRun: setLogLevel,
 }
 
 var workflowCustomCmd = &cobra.Command{
@@ -31,7 +31,7 @@ var workflowCustomCmd = &cobra.Command{
 	Long:  `Run custom commands using the CI/CD runner`,
 	RunE:  workflow.Custom,
 	Args:  cobra.MinimumNArgs(1),
-	PreRun: toggleDebug,
+	PreRun: setLogLevel,
 }
 
 func init() {
