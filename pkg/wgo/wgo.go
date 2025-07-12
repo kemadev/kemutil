@@ -33,6 +33,7 @@ func Init(_ *cobra.Command, _ []string) error {
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))
 
+	// nosemgrep: gitlab.gosec.G204-1 // exec.LookPath() is used to locate the binary via $PATH and git repo is variable too, however we run on trusted developer machines
 	command := exec.Command(binary, baseArgs...)
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
@@ -75,6 +76,8 @@ func Update(_ *cobra.Command, _ []string) error {
 	for _, mod := range mods {
 		slog.Debug("Updating Go module", slog.String("mod", mod))
 
+		// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
+		// nosemgrep: gitlab.gosec.G204-1 // Same
 		command := exec.Command(binary, baseArgs...)
 		command.Dir = path.Dir(mod)
 		command.Stdout = os.Stdout
@@ -119,6 +122,8 @@ func Tidy(_ *cobra.Command, _ []string) error {
 	for _, mod := range mods {
 		slog.Debug("Tidying Go module", slog.String("mod", mod))
 
+		// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
+		// nosemgrep: gitlab.gosec.G204-1 // Same
 		command := exec.Command(binary, baseArgs...)
 		command.Dir = path.Dir(mod)
 		command.Stdout = os.Stdout

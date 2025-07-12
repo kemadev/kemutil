@@ -97,6 +97,7 @@ func Ci(cmd *cobra.Command, _ []string) error {
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))
 
+	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 	err = syscall.Exec(binary, append([]string{binary}, baseArgs...), os.Environ())
 	if err != nil {
 		return fmt.Errorf("error running workflow ci command: %w", err)
@@ -136,6 +137,7 @@ func Custom(_ *cobra.Command, args []string) error {
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))
 
+	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // The purpose of the command is to run a custom command
 	err = syscall.Exec(binary, append([]string{binary}, baseArgs...), os.Environ())
 	if err != nil {
 		return fmt.Errorf("error running workflow custom command: %w", err)
