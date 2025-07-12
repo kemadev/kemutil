@@ -43,7 +43,7 @@ jobs:
       - name: Create git secrets
         shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GORELEASER_PAT }}
         run: |
           echo -e "machine $(git remote get-url origin | sed -E 's|(https?://)?([^/@:]+).*|\2|')\nlogin git\npassword ${GITHUB_TOKEN}\n" > "/tmp/gitcreds"
           cp /tmp/gitcreds "${HOME}/.netrc"
@@ -57,5 +57,5 @@ jobs:
         if: always()
         shell: bash
         run: |
-          rm -f /tmp/gitcreds || echo "Git credentials file removal failed"
-          docker logout ghcr.io || echo "Docker logout failed"
+          rm -f /tmp/gitcreds || { echo "Git credentials file removal failed" && exit 1; }
+          docker logout ghcr.io || { echo "Docker logout failed" && exit 1; }
