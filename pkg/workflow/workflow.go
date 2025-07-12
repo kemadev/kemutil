@@ -9,7 +9,6 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/kemadev/kemutil/pkg/repotpl"
 	"github.com/spf13/cobra"
 )
 
@@ -20,9 +19,8 @@ var (
 	}
 	ciImageDevURL url.URL = url.URL{
 		Host: "ghcr.io",
-		Path: "kemadev/ci-cd:dev-latest",
+		Path: "kemadev/ci-cd:hot-latest",
 	}
-	tmpDirBase string = os.TempDir()
 )
 
 var (
@@ -40,9 +38,7 @@ var (
 		"-v",
 		".:/src:Z",
 		"-v",
-		tmpDirBase + "/gitcreds:/home/nonroot/.netrc:Z",
 	}
-	gitCredsTmpFilePath string = tmpDirBase + "/gitcreds"
 )
 
 const GitTokenEnvVarKey string = "GIT_TOKEN"
@@ -56,27 +52,6 @@ func getImageURL() url.URL {
 	return ciImageProdURL
 }
 
-func prepareGitCredentials() error {
-	gitToken := os.Getenv(GitTokenEnvVarKey)
-	if gitToken == "" {
-		return fmt.Errorf(GitTokenEnvVarKey + " environment variable is not set")
-	}
-
-	err := os.WriteFile(gitCredsTmpFilePath, []byte(
-		fmt.Sprintf("machine %s\nlogin git\npassword %s\n",
-			repotpl.RepoTemplateURL.Hostname(),
-			gitToken,
-		),
-	), 0o600)
-	if err != nil {
-		return fmt.Errorf("error writing git credentials to "+gitCredsTmpFilePath+": %w", err)
-	}
-
-	slog.Debug("Git credentials prepared", slog.String("path", gitCredsTmpFilePath))
-
-	return nil
-}
-
 // Ci runs the CI workflows.
 func Ci(cmd *cobra.Command, args []string) error {
 	slog.Debug("Running workflow CI")
@@ -86,11 +61,6 @@ func Ci(cmd *cobra.Command, args []string) error {
 	binary, err := exec.LookPath("docker")
 	if err != nil {
 		return fmt.Errorf("docker binary not found: %w", err)
-	}
-
-	err = prepareGitCredentials()
-	if err != nil {
-		return fmt.Errorf("error preparing git credentials: %w", err)
 	}
 
 	baseArgs := dockerArgs
@@ -126,11 +96,6 @@ func Custom(cmd *cobra.Command, args []string) error {
 	binary, err := exec.LookPath("docker")
 	if err != nil {
 		return fmt.Errorf("docker binary not found: %w", err)
-	}
-
-	err = prepareGitCredentials()
-	if err != nil {
-		return fmt.Errorf("error preparing git credentials: %w", err)
 	}
 
 	baseArgs := dockerArgs
