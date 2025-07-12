@@ -1,6 +1,6 @@
 module github.com/kemadev/kemutil
 
-go 1.24.3
+go 1.24.5
 
 require (
 	github.com/kemadev/ci-cd v0.17.0
