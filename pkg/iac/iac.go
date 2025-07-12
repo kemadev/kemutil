@@ -134,7 +134,6 @@ func Init(_ *cobra.Command, _ []string) error {
 	for _, file := range templatedInitFiles {
 		filePath := path.Join(".", file.Name)
 
-		//nolint:gomnd // ReadWrite for current user
 		FilePermReadWriteCurrentUser := 0o600
 
 		err := os.WriteFile(
