@@ -89,7 +89,6 @@ func Init(_ *cobra.Command, _ []string) error {
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))
 
-	// NOTE nosemgrep directive on 2 successive lines does not work here for some reason, we want to ignore go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec & gitlab.gosec.G202-1
 	// nosemgrep // exec.LookPath() is used to locate the binary via $PATH and git repo is variable too, however we run on trusted developer machines
 	err = syscall.Exec(binary, append([]string{binary}, baseArgs...), os.Environ())
 	if err != nil {
