@@ -28,10 +28,48 @@ const (
 
 var (
 	// DebugEnabled is a flag to enable debug output for Pulumi commands.
+	//nolint:gochecknoglobals // Cobra flags are global
 	DebugEnabled bool
 	// Refresh is a flag to refresh the Pulumi stack before updating.
+	//nolint:gochecknoglobals // Cobra flags are global
 	Refresh bool
 )
+
+const MainGoContent = `package main
+
+import (
+	"fmt"
+	"net/url"
+	"time"
+
+	"github.com/kemadev/infrastructure-components/pkg/k8s/basichttpapp"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+)
+
+func main() {
+	pulumi.Run(func(ctx *pulumi.Context) error {
+		err := basichttpapp.DeployBasicHTTPApp(ctx, basichttpapp.AppParms{
+			AppNamespace:        "changeme",
+			AppComponent:        "changeme",
+			BusinessUnitId:      "changeme",
+			CustomerId:          "changeme",
+			CostCenter:          "changeme",
+			CostAllocationOwner: "changeme",
+			OperationsOwner:     "changeme",
+			Rpo:                 0 * time.Second,
+			MonitoringUrl: url.URL{
+				Scheme: "https",
+				Host:   "changeme",
+				Path:   "changeme",
+			},
+		})
+		if err != nil {
+			return fmt.Errorf("error deploying basic HTTP app: %w", err)
+		}
+		return nil
+	})
+}
+`
 
 func renderTemplates() ([]templatedFile, error) {
 	moduleName, err := util.GetGoModExpectedName()
@@ -69,42 +107,8 @@ config:
 `,
 	}
 	mainGo := templatedFile{
-		Name: "main.go",
-		Content: `package main
-
-import (
-	"fmt"
-	"net/url"
-	"time"
-
-	"github.com/kemadev/infrastructure-components/pkg/k8s/basichttpapp"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-)
-
-func main() {
-	pulumi.Run(func(ctx *pulumi.Context) error {
-		err := basichttpapp.DeployBasicHTTPApp(ctx, basichttpapp.AppParms{
-			AppNamespace:        "changeme",
-			AppComponent:        "changeme",
-			BusinessUnitId:      "changeme",
-			CustomerId:          "changeme",
-			CostCenter:          "changeme",
-			CostAllocationOwner: "changeme",
-			OperationsOwner:     "changeme",
-			Rpo:                 0 * time.Second,
-			MonitoringUrl: url.URL{
-				Scheme: "https",
-				Host:   "changeme",
-				Path:   "changeme",
-			},
-		})
-		if err != nil {
-			return fmt.Errorf("error deploying basic HTTP app: %w", err)
-		}
-		return nil
-	})
-}
-`,
+		Name:    "main.go",
+		Content: MainGoContent,
 	}
 	templatedInitFiles := []templatedFile{
 		pulumiYaml,

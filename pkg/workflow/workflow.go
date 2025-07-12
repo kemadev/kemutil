@@ -16,10 +16,12 @@ import (
 )
 
 var (
+	//nolint:gochecknoglobals // Used as a const
 	ciImageProdURL = url.URL{
 		Host: "ghcr.io",
 		Path: "kemadev/ci-cd:latest",
 	}
+	//nolint:gochecknoglobals // Used as a const
 	ciImageDevURL = url.URL{
 		Host: "ghcr.io",
 		Path: "kemadev/ci-cd:hot-latest",
@@ -28,12 +30,16 @@ var (
 
 var (
 	// Hot is a flag to enable hot reload mode.
+	//nolint:gochecknoglobals // Cobra flags are global
 	Hot bool
 	// Fix is a flag to enable fix mode.
+	//nolint:gochecknoglobals // Cobra flags are global
 	Fix bool
 	// RunnerDebug is a flag to enable debug mode for the CI/CD runner.
+	//nolint:gochecknoglobals // Cobra flags are global
 	RunnerDebug bool
-	dockerArgs  = []string{
+	//nolint:gochecknoglobals // Used as a const
+	dockerArgs = []string{
 		"run",
 		"--rm",
 		"--interactive",

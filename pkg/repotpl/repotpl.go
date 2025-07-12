@@ -17,11 +17,13 @@ import (
 )
 
 var (
+	//nolint:gochecknoglobals // Used as a const
 	RepoTemplateURL = url.URL{
 		Scheme: "https",
 		Host:   "github.com",
 		Path:   "kemadev/repo-template",
 	}
+	//nolint:gochecknoglobals // Cobra flags are global
 	SkipAnswered bool
 )
 

@@ -8,24 +8,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var iacCmd = &cobra.Command{
-	Use:    "iac",
-	Short:  "Wrapper for IaC tasks",
-	Long:   `Run everyday IaC tasks like initializing a Iac stack, deploying it, ...`,
-	Args:   cobra.ExactArgs(1),
-	PreRun: setLogLevel,
-}
-
-var iacInit = &cobra.Command{
-	Use:    "init",
-	Short:  "Initialize a Pulumi stack",
-	Long:   `Initialize a Pulumi stack in the current directory, using a template`,
-	RunE:   iac.Init,
-	Args:   cobra.NoArgs,
-	PreRun: setLogLevel,
-}
-
 func init() {
+	iacCmd := &cobra.Command{
+		Use:    "iac",
+		Short:  "Wrapper for IaC tasks",
+		Long:   `Run everyday IaC tasks like initializing a Iac stack, deploying it, ...`,
+		Args:   cobra.ExactArgs(1),
+		PreRun: setLogLevel,
+	}
+	iacInit := &cobra.Command{
+		Use:    "init",
+		Short:  "Initialize a Pulumi stack",
+		Long:   `Initialize a Pulumi stack in the current directory, using a template`,
+		RunE:   iac.Init,
+		Args:   cobra.NoArgs,
+		PreRun: setLogLevel,
+	}
+
 	rootCmd.AddCommand(iacCmd)
 	iacCmd.AddCommand(iacInit)
 	iacCmd.PersistentFlags().
