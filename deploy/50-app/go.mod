@@ -1,6 +1,6 @@
 module github.com/kemadev/kemutil/deploy/50-app
 
-go 1.24.3
+go 1.24.5
 
 require (
 	github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee

@@ -1,6 +1,6 @@
 module github.com/kemadev/kemutil/deploy/02-dev-cluster-gateway
 
-go 1.24.2
+go 1.24.5
 
 require (
 	github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee
