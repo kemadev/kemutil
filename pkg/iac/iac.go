@@ -133,7 +133,15 @@ func Init(_ *cobra.Command, _ []string) error {
 
 	for _, file := range templatedInitFiles {
 		filePath := path.Join(".", file.Name)
-		err := os.WriteFile(filePath, []byte(file.Content), 0o644)
+
+		//nolint:gomnd // ReadWrite for current user
+		FilePermReadWriteCurrentUser := 0o600
+
+		err := os.WriteFile(
+			filePath,
+			[]byte(file.Content),
+			os.FileMode(FilePermReadWriteCurrentUser),
+		)
 		if err != nil {
 			return fmt.Errorf("error writing templated file %s: %w", filePath, err)
 		}

@@ -60,7 +60,7 @@ func Update(_ *cobra.Command, _ []string) error {
 	}
 
 	if len(mods) == 0 {
-		return fmt.Errorf("no go.mod files found in the current directory or subdirectories")
+		return nil
 	}
 
 	slog.Debug("Found go.mod files", slog.Any("mods", mods))
@@ -104,7 +104,7 @@ func Tidy(_ *cobra.Command, _ []string) error {
 	}
 
 	if len(mods) == 0 {
-		return fmt.Errorf("no go.mod files found in the current directory or subdirectories")
+		return nil
 	}
 
 	slog.Debug("Found go.mod files", slog.Any("mods", mods))

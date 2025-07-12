@@ -25,6 +25,13 @@ var (
 	SkipAnswered bool
 )
 
+var (
+	ErrNotInGitRepo = fmt.Errorf(
+		"not in a git repository, please run this command inside a git repository",
+	)
+	ErrGitURLFormatInvalid = fmt.Errorf("git repository URL format is invalid")
+)
+
 const copierConfigPath = "config/copier/.copier-answers.yml"
 
 // SkipAnswered indicates whether to skip questions that have already been answered during repository template update,.
@@ -46,9 +53,7 @@ func Init(_ *cobra.Command, _ []string) error {
 	}
 
 	if repo == "" {
-		return fmt.Errorf(
-			"not in a git repository, please run this command inside a git repository",
-		)
+		return ErrNotInGitRepo
 	}
 
 	repoFull := "https://" + repo
@@ -62,8 +67,15 @@ func Init(_ *cobra.Command, _ []string) error {
 	baseArgs = append(baseArgs, "--data", "vcs_server_host"+"="+repoURL.Host)
 
 	vcsParts := strings.Split(strings.TrimPrefix(repoURL.Path, "/"), "/")
-	if len(vcsParts) != 2 {
-		return fmt.Errorf("unexpected git repository URL format: %s", repoURL.Path)
+	// Namespace + Repository name. Note that it won't work for GitLab or other providers that have different URL structures.
+	expectedPartsNum := 2
+	if len(vcsParts) != expectedPartsNum {
+		return fmt.Errorf(
+			"expected %d parts, got %d: %w",
+			expectedPartsNum,
+			len(vcsParts),
+			ErrGitURLFormatInvalid,
+		)
 	}
 
 	baseArgs = append(baseArgs, "--data", "vcs_namespace"+"="+vcsParts[0])

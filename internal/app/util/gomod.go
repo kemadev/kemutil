@@ -13,6 +13,8 @@ import (
 	"github.com/kemadev/ci-cd/pkg/git"
 )
 
+var ErrRepoBasePathNil = fmt.Errorf("repository base path is nil")
+
 func GetGoModExpectedName() (string, error) {
 	workdir, err := os.Getwd()
 	if err != nil {
@@ -36,7 +38,7 @@ func GetGoModExpectedNameFromPath(path string) (string, error) {
 	}
 
 	if basePath == "" {
-		return "", fmt.Errorf("error getting git repository base path")
+		return "", ErrRepoBasePathNil
 	}
 
 	slog.Debug("Git base path found", slog.String("basePath", basePath))
