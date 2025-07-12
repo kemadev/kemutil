@@ -1,5 +1,5 @@
 # TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS go-deps
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.22.0@sha256:8a1f59ffb675680d47db6337b49d22281a139e9d709335b492be023728e11715 AS go-deps
 
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
@@ -19,7 +19,7 @@ RUN --mount=type=bind,source=go.mod,target=go.mod curl -sSL "https://go.dev/dl/g
 RUN mkdir -p /root/go
 
 # TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS clean-deps
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.22.0@sha256:8a1f59ffb675680d47db6337b49d22281a139e9d709335b492be023728e11715 AS clean-deps
 
 WORKDIR /deps
 
@@ -29,7 +29,7 @@ COPY --link --from=go-deps /root/go /root/go
 ENV PATH="/root/go/bin:/usr/local/go/bin:${PATH}"
 
 # TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS dev
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.22.0@sha256:8a1f59ffb675680d47db6337b49d22281a139e9d709335b492be023728e11715 AS dev
 
 # Docker buildx ARGs
 ARG TARGETOS
