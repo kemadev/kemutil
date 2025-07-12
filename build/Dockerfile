@@ -44,7 +44,7 @@ ENV CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM64=${G
 # Use manually mounted volume for dev, providing hot-reload possibility
 WORKDIR /app
 
-COPY --link --from=go-deps /usr/local/go /usr/local/go
+COPY --link --from=clean-deps /usr/local/go /usr/local/go
 
 # hadolint ignore=DL3018
 RUN apk add --no-cache git sudo && adduser -D -u 1000 nonroot && echo "nonroot ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/nonroot && chmod 0440 /etc/sudoers.d/nonroot && chown nonroot:nonroot /usr/local/go
