@@ -20,7 +20,7 @@ var (
 	}
 	ciImageDevURL url.URL = url.URL{
 		Host: "ghcr.io",
-		Path: "kemadev/ci-cd-dev:latest",
+		Path: "kemadev/ci-cd:dev-latest",
 	}
 	tmpDirBase string = os.TempDir()
 )
