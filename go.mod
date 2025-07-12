@@ -3,7 +3,7 @@ module github.com/kemadev/kemutil
 go 1.24.3
 
 require (
-	github.com/kemadev/ci-cd v0.6.0
+	github.com/kemadev/ci-cd v0.17.0
 	github.com/kemadev/infrastructure-components v0.0.0-20250709093725-def00f5504b4
 	github.com/spf13/cobra v1.9.1
 )
@@ -11,7 +11,7 @@ require (
 require (
 	dario.cat/mergo v1.0.2 // indirect
 	github.com/BurntSushi/toml v1.5.0 // indirect
-	github.com/Masterminds/semver v1.5.0 // indirect
+	github.com/Masterminds/semver/v3 v3.3.1 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.3.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
@@ -19,7 +19,7 @@ require (
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
-	github.com/caarlos0/svu v1.12.0 // indirect
+	github.com/caarlos0/svu/v3 v3.2.3 // indirect
 	github.com/charmbracelet/bubbles v0.21.0 // indirect
 	github.com/charmbracelet/bubbletea v1.3.5 // indirect
 	github.com/charmbracelet/colorprofile v0.3.1 // indirect
