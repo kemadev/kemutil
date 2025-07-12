@@ -1,5 +1,5 @@
 [build]
-cmd = "go build -o /home/nonroot/dev ./cmd/main"
+cmd = "go build -o /home/nonroot/dev ."
 bin = "/home/nonroot/dev"
 # Use arguments passed at runtime to the binary
 args_bin = ["${@}"]
