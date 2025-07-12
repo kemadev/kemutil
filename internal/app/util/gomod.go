@@ -1,3 +1,6 @@
+// Copyright 2025 kemadev
+// SPDX-License-Identifier: MPL-2.0
+
 package util
 
 import (
@@ -31,6 +34,7 @@ func GetGoModExpectedNameFromPath(path string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("error getting git repository base path: %w", err)
 	}
+
 	if basePath == "" {
 		return "", fmt.Errorf("error getting git repository base path")
 	}
@@ -38,14 +42,17 @@ func GetGoModExpectedNameFromPath(path string) (string, error) {
 	slog.Debug("Git base path found", slog.String("basePath", basePath))
 
 	repoRoot := path
+
 	for {
 		if _, err := os.Stat(filepath.Join(repoRoot, ".git")); err == nil {
 			break
 		}
+
 		parent := filepath.Dir(repoRoot)
 		if parent == repoRoot {
 			break
 		}
+
 		repoRoot = parent
 	}
 
@@ -55,9 +62,11 @@ func GetGoModExpectedNameFromPath(path string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("error getting relative path: %w", err)
 	}
+
 	if relPath == "." {
 		relPath = ""
 	}
+
 	relPath = filepath.ToSlash(relPath)
 
 	goModName := strings.TrimSuffix(fmt.Sprintf("%s/%s", basePath, relPath), "/")

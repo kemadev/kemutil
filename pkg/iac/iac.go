@@ -1,3 +1,6 @@
+// Copyright 2025 kemadev
+// SPDX-License-Identifier: MPL-2.0
+
 package iac
 
 import (
@@ -24,9 +27,9 @@ const (
 )
 
 var (
-	// DebugEnabled is a flag to enable debug output for Pulumi commands
+	// DebugEnabled is a flag to enable debug output for Pulumi commands.
 	DebugEnabled bool
-	// Refresh is a flag to refresh the Pulumi stack before updating
+	// Refresh is a flag to refresh the Pulumi stack before updating.
 	Refresh bool
 )
 
@@ -115,7 +118,7 @@ func main() {
 }
 
 // Init initializes a IaC module in the current directory.
-func Init(cmd *cobra.Command, args []string) error {
+func Init(_ *cobra.Command, _ []string) error {
 	slog.Info("Initializing IaC module")
 
 	err := wgo.Init(nil, nil)

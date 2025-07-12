@@ -1,6 +1,8 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright 2025 kemadev
+SPDX-License-Identifier: MPL-2.0
 */
+
 package cmd
 
 import (
@@ -9,28 +11,28 @@ import (
 )
 
 var workflowCmd = &cobra.Command{
-	Use:   "workflow",
-	Short: "Run workflows",
-	Long:  `Run workflows that usually run in CI/CD pipelines, locally`,
-	Args:  cobra.MinimumNArgs(1),
+	Use:    "workflow",
+	Short:  "Run workflows",
+	Long:   `Run workflows that usually run in CI/CD pipelines, locally`,
+	Args:   cobra.MinimumNArgs(1),
 	PreRun: setLogLevel,
 }
 
 var workflowCiCmd = &cobra.Command{
-	Use:   "ci",
-	Short: "Run CI workflows",
-	Long:  `Run all CI pipelines`,
-	RunE:  workflow.Ci,
-	Args:  cobra.NoArgs,
+	Use:    "ci",
+	Short:  "Run CI workflows",
+	Long:   `Run all CI pipelines`,
+	RunE:   workflow.Ci,
+	Args:   cobra.NoArgs,
 	PreRun: setLogLevel,
 }
 
 var workflowCustomCmd = &cobra.Command{
-	Use:   "custom",
-	Short: "Run custom commands",
-	Long:  `Run custom commands using the CI/CD runner`,
-	RunE:  workflow.Custom,
-	Args:  cobra.MinimumNArgs(1),
+	Use:    "custom",
+	Short:  "Run custom commands",
+	Long:   `Run custom commands using the CI/CD runner`,
+	RunE:   workflow.Custom,
+	Args:   cobra.MinimumNArgs(1),
 	PreRun: setLogLevel,
 }
 

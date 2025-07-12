@@ -1,3 +1,6 @@
+// Copyright 2025 kemadev
+// SPDX-License-Identifier: MPL-2.0
+
 package cmd
 
 import (
@@ -6,28 +9,28 @@ import (
 )
 
 var repotplCmd = &cobra.Command{
-	Use:   "repotpl",
-	Short: "Repository template helpers",
-	Long:  `Run tasks related to repository templates, such as initializing or updating`,
-	Args:  cobra.ExactArgs(1),
+	Use:    "repotpl",
+	Short:  "Repository template helpers",
+	Long:   `Run tasks related to repository templates, such as initializing or updating`,
+	Args:   cobra.ExactArgs(1),
 	PreRun: setLogLevel,
 }
 
 var repotplInit = &cobra.Command{
-	Use:   "init",
-	Short: "Initialize repository template",
-	Long:  `Initialize the repository template from upstream`,
-	RunE:  repotpl.Init,
-	Args:  cobra.NoArgs,
+	Use:    "init",
+	Short:  "Initialize repository template",
+	Long:   `Initialize the repository template from upstream`,
+	RunE:   repotpl.Init,
+	Args:   cobra.NoArgs,
 	PreRun: setLogLevel,
 }
 
 var repotplUpdate = &cobra.Command{
-	Use:   "update",
-	Short: "Update repository template",
-	Long:  `Update the repository template with the latest changes from upstream`,
-	RunE:  repotpl.Update,
-	Args:  cobra.NoArgs,
+	Use:    "update",
+	Short:  "Update repository template",
+	Long:   `Update the repository template with the latest changes from upstream`,
+	RunE:   repotpl.Update,
+	Args:   cobra.NoArgs,
 	PreRun: setLogLevel,
 }
 

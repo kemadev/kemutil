@@ -1,3 +1,6 @@
+// Copyright 2025 kemadev
+// SPDX-License-Identifier: MPL-2.0
+
 package wgo
 
 import (
@@ -13,7 +16,7 @@ import (
 )
 
 // Init initializes a Go module in the current directory.
-func Init(cmd *cobra.Command, args []string) error {
+func Init(_ *cobra.Command, _ []string) error {
 	slog.Info("Initializing Go module")
 
 	modName, err := util.GetGoModExpectedName()
@@ -33,6 +36,7 @@ func Init(cmd *cobra.Command, args []string) error {
 	command := exec.Command(binary, baseArgs...)
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
+
 	err = command.Run()
 	if err != nil {
 		return fmt.Errorf("error running go mod init: %w", err)
@@ -44,7 +48,7 @@ func Init(cmd *cobra.Command, args []string) error {
 }
 
 // Update updates all Go modules dependencies found in the current directory and subdirectories.
-func Update(cmd *cobra.Command, args []string) error {
+func Update(_ *cobra.Command, _ []string) error {
 	slog.Info("Updating Go modules")
 
 	mods, err := filesfind.FindFilesByExtension(filesfind.FilesFindingArgs{
@@ -54,15 +58,18 @@ func Update(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return fmt.Errorf("error finding go.mod files: %w", err)
 	}
+
 	if len(mods) == 0 {
 		return fmt.Errorf("no go.mod files found in the current directory or subdirectories")
 	}
+
 	slog.Debug("Found go.mod files", slog.Any("mods", mods))
 
 	binary, err := exec.LookPath("go")
 	if err != nil {
 		return fmt.Errorf("go binary not found: %w", err)
 	}
+
 	baseArgs := []string{"get", "-u", "./..."}
 
 	for _, mod := range mods {
@@ -72,6 +79,7 @@ func Update(cmd *cobra.Command, args []string) error {
 		command.Dir = path.Dir(mod)
 		command.Stdout = os.Stdout
 		command.Stderr = os.Stderr
+
 		err = command.Run()
 		if err != nil {
 			return fmt.Errorf("error updating Go module %s: %w", mod, err)
@@ -84,7 +92,7 @@ func Update(cmd *cobra.Command, args []string) error {
 }
 
 // Tidy tidies all Go modules dependencies found in the current directory and subdirectories.
-func Tidy(cmd *cobra.Command, args []string) error {
+func Tidy(_ *cobra.Command, _ []string) error {
 	slog.Info("Tidying Go modules")
 
 	mods, err := filesfind.FindFilesByExtension(filesfind.FilesFindingArgs{
@@ -94,9 +102,11 @@ func Tidy(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return fmt.Errorf("error finding go.mod files: %w", err)
 	}
+
 	if len(mods) == 0 {
 		return fmt.Errorf("no go.mod files found in the current directory or subdirectories")
 	}
+
 	slog.Debug("Found go.mod files", slog.Any("mods", mods))
 
 	binary, err := exec.LookPath("go")
@@ -113,6 +123,7 @@ func Tidy(cmd *cobra.Command, args []string) error {
 		command.Dir = path.Dir(mod)
 		command.Stdout = os.Stdout
 		command.Stderr = os.Stderr
+
 		err = command.Run()
 		if err != nil {
 			return fmt.Errorf("error tidying Go module %s: %w", mod, err)
