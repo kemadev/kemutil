@@ -33,6 +33,6 @@ var (
 )
 
 func init() {
-	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Enable debug output")
-	rootCmd.PersistentFlags().BoolVar(&silent, "silent", false, "Enable silent mode (less logs)")
+	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Enable debug output. Mutually exclusive with --silent, will take precedence if both are set")
+	rootCmd.PersistentFlags().BoolVar(&silent, "silent", false, "Enable silent mode (less logs). Mutually exclusive with --debug, will be ignored if --debug is set")
 }
