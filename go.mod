@@ -4,7 +4,7 @@ go 1.24.3
 
 require (
 	github.com/kemadev/ci-cd v0.6.0
-	github.com/kemadev/infrastructure-components v0.0.0-20250709093725-def00f5504b4
+	github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee
 	github.com/spf13/cobra v1.9.1
 )
 

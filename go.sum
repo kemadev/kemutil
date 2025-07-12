@@ -113,8 +113,8 @@ github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 h1:BQSFePA1RWJOl
 github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99/go.mod h1:1lJo3i6rXxKeerYnT8Nvf0QmHCRC1n8sfWVwXF2Frvo=
 github.com/kemadev/ci-cd v0.6.0 h1:6Ib39RfHCdZkQGF1kyAYHuSKZ1GcPX146/bxXoM+R1g=
 github.com/kemadev/ci-cd v0.6.0/go.mod h1:VOiGSVmH24D1ajYlKNt87g9d4nA+16Bn/Y8aSV9WlPU=
-github.com/kemadev/infrastructure-components v0.0.0-20250709093725-def00f5504b4 h1:KZmS1fFrqqnAQAgjcG3GS/XcWsuUFUV9NB3CKz2gt1k=
-github.com/kemadev/infrastructure-components v0.0.0-20250709093725-def00f5504b4/go.mod h1:n+WeMuZqZf+hTQSBMAis/w7rtT76rxCwGNrRwp/DH34=
+github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee h1:oYiYlqcvHLbixfLg+steiIzZ78ycbweYeM0aQ+tBLV0=
+github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee/go.mod h1:Gfa5yVno5jFhf7gwjGGxRtB3ngeShdmWb+KW1QWaIFA=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
 github.com/kevinburke/ssh_config v1.2.0/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
