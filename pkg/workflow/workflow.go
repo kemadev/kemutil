@@ -69,6 +69,11 @@ func Ci(cmd *cobra.Command, args []string) error {
 		baseArgs = append(baseArgs, "-e", "RUNNER_DEBUG=1")
 	}
 
+	if cmd.Flag("silent").Value.String() == "true" {
+		slog.Debug("Silent mode is enabled, adding silent flag to base arguments")
+		baseArgs = append(baseArgs, "-e", "RUNNER_SILENT=1")
+	}
+
 	baseArgs = append(baseArgs, strings.TrimPrefix(imageUrl.String(), "//"))
 
 	baseArgs = append(baseArgs, "ci")
