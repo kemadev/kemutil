@@ -25,9 +25,14 @@ func Execute() {
 	}
 }
 
-// debug is a flag to enable debug output, actually unused
-var debug bool
+var (
+	// debug is a flag to enable debug output, actually unused
+	debug bool
+	// silent is a flag to enable silent mode, actually unused
+	silent bool
+)
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&debug, "debug", false, "Enable debug output")
+	rootCmd.PersistentFlags().BoolVar(&silent, "silent", false, "Enable silent mode (less logs)")
 }
