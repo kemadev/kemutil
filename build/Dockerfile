@@ -1,5 +1,5 @@
 # TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS go-deps
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c AS go-deps
 
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
@@ -19,7 +19,7 @@ RUN --mount=type=bind,source=go.mod,target=go.mod curl -sSL "https://go.dev/dl/g
 RUN mkdir -p /root/go
 
 # TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS clean-deps
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c AS clean-deps
 
 WORKDIR /deps
 
@@ -29,7 +29,7 @@ COPY --link --from=go-deps /root/go /root/go
 ENV PATH="/root/go/bin:/usr/local/go/bin:${PATH}"
 
 # TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS dev
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c AS dev
 
 # Docker buildx ARGs
 ARG TARGETOS
@@ -83,7 +83,7 @@ RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=bind,source=.,target=. \
 	go build -ldflags='-s -w' -o /usr/local/bin/app .
 
-FROM gcr.io/distroless/static-debian12:nonroot AS goreleaser
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:627d6c5a23ad24e6bdff827f16c7b60e0289029b0c79e9f7ccd54ae3279fb45f AS goreleaser
 
 LABEL org.opencontainers.image.authors="kemadev"
 LABEL org.opencontainers.image.url="ghcr.io/kemadev/kemutil"
@@ -97,7 +97,7 @@ COPY kemutil /app
 ENTRYPOINT ["/app"]
 
 # hadolint ignore=DL3007
-FROM gcr.io/distroless/static-debian12:nonroot AS main
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:627d6c5a23ad24e6bdff827f16c7b60e0289029b0c79e9f7ccd54ae3279fb45f AS main
 
 LABEL org.opencontainers.image.authors="kemadev"
 LABEL org.opencontainers.image.url="ghcr.io/kemadev/kemutil"
