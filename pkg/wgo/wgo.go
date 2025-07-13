@@ -12,15 +12,17 @@ import (
 	"strings"
 
 	"github.com/kemadev/ci-cd/pkg/filesfind"
-	"github.com/kemadev/kemutil/internal/app/util"
+	"github.com/kemadev/kemutil/internal/app/gomodtool"
 	"github.com/spf13/cobra"
 )
+
+var ErrGoVersionInvalid = fmt.Errorf("invalid Go version")
 
 // Init initializes a Go module in the current directory.
 func Init(_ *cobra.Command, _ []string) error {
 	slog.Info("Initializing Go module")
 
-	modName, err := util.GetGoModExpectedName()
+	modName, err := gomodtool.GetGoModExpectedName()
 	if err != nil {
 		return fmt.Errorf("error getting expected Go module name: %w", err)
 	}
@@ -172,6 +174,7 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 	// nosemgrep: gitlab.gosec.G204-1 // Same
 	latestGoVersionCmd := exec.Command(curlBinary, "-fsSL", "https://go.dev/VERSION?m=text")
+
 	latestGoVersionOutput, err := latestGoVersionCmd.Output()
 	if err != nil {
 		return fmt.Errorf("error getting latest Go version: %w", err)
@@ -180,13 +183,15 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 	// Version number, time and final newline
 	expectedPartsNum := 3
 	latestGoVersionParts := strings.Split(string(latestGoVersionOutput), "\n")
+
 	if len(latestGoVersionParts) != expectedPartsNum {
-		return fmt.Errorf("unexpected output from go version command: %s", latestGoVersionOutput)
+		return fmt.Errorf("unexpected output from go version command: %s: %w", latestGoVersionOutput, ErrGoVersionInvalid)
 	}
+
 	latestGoVersion := strings.TrimPrefix(latestGoVersionParts[0], "go")
 	slog.Debug("Latest Go version", slog.String("version", latestGoVersion))
 
-	baseArgs := []string{"mod", "edit", "-go=" + string(latestGoVersion)}
+	baseArgs := []string{"mod", "edit", "-go=" + latestGoVersion}
 
 	for _, mod := range mods {
 		slog.Debug("Updating Go version", slog.String("mod", mod))
