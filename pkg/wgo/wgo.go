@@ -172,6 +172,7 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 	// nosemgrep: gitlab.gosec.G204-1 // Same
 	latestGoVersionCmd := exec.Command(curlBinary, "-fsSL", "https://go.dev/VERSION?m=text")
+
 	latestGoVersionOutput, err := latestGoVersionCmd.Output()
 	if err != nil {
 		return fmt.Errorf("error getting latest Go version: %w", err)
@@ -180,9 +181,11 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 	// Version number, time and final newline
 	expectedPartsNum := 3
 	latestGoVersionParts := strings.Split(string(latestGoVersionOutput), "\n")
+
 	if len(latestGoVersionParts) != expectedPartsNum {
 		return fmt.Errorf("unexpected output from go version command: %s", latestGoVersionOutput)
 	}
+
 	latestGoVersion := strings.TrimPrefix(latestGoVersionParts[0], "go")
 	slog.Debug("Latest Go version", slog.String("version", latestGoVersion))
 
