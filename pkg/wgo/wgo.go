@@ -175,13 +175,14 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 		return fmt.Errorf("error getting latest Go version: %w", err)
 	}
 
-	// Version number and time
-	expectedPartsNum := 2
+	// Version number, time and final newline
+	expectedPartsNum := 3
 	latestGoVersionParts := strings.Split(string(latestGoVersionOutput), "\n")
 	if len(latestGoVersionParts) != expectedPartsNum {
 		return fmt.Errorf("unexpected output from go version command: %s", latestGoVersionOutput)
 	}
-	latestGoVersion := latestGoVersionParts[0]
+	latestGoVersion := strings.TrimPrefix(latestGoVersionParts[0], "go")
+	slog.Debug("Latest Go version", slog.String("version", latestGoVersion))
 
 	baseArgs := []string{"mod", "edit", "-go=" + string(latestGoVersion)}
 
