@@ -42,9 +42,18 @@ func init() {
 		Args:   cobra.NoArgs,
 		PreRun: setLogLevel,
 	}
+	goGoUpdate := &cobra.Command{
+		Use:    "go-update",
+		Short:  "Update all Go modules' Go version",
+		Long:   `Update all Go modules' Go version found in the current directory and subdirectories`,
+		RunE:   wgo.UpdateGoVersion,
+		Args:   cobra.NoArgs,
+		PreRun: setLogLevel,
+	}
 
 	rootCmd.AddCommand(goCmd)
 	goCmd.AddCommand(goInit)
 	goCmd.AddCommand(goUpdate)
 	goCmd.AddCommand(goTidy)
+	goCmd.AddCommand(goGoUpdate)
 }
