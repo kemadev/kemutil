@@ -10,7 +10,7 @@ import (
 	"path"
 
 	ut "github.com/kemadev/infrastructure-components/pkg/util"
-	"github.com/kemadev/kemutil/internal/app/util"
+	"github.com/kemadev/kemutil/internal/app/gomodtool"
 	"github.com/kemadev/kemutil/pkg/wgo"
 	"github.com/spf13/cobra"
 )
@@ -72,7 +72,7 @@ func main() {
 `
 
 func renderTemplates() ([]templatedFile, error) {
-	moduleName, err := util.GetGoModExpectedName()
+	moduleName, err := gomodtool.GetGoModExpectedName()
 	if err != nil {
 		return nil, fmt.Errorf("error getting expected Go module name: %w", err)
 	}
