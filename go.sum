@@ -112,8 +112,8 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 h1:BQSFePA1RWJOlocH6Fxy8MmwDt+yVQYULKfN0RoTN8A=
 github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99/go.mod h1:1lJo3i6rXxKeerYnT8Nvf0QmHCRC1n8sfWVwXF2Frvo=
-github.com/kemadev/ci-cd v0.17.0 h1:sUrCklDP+EMYtqXtMfq2N33C+WgNM0Hrk5UXAV69imw=
-github.com/kemadev/ci-cd v0.17.0/go.mod h1:3fkEeMPPXfjHUxqSc7FJhD7Kr7ryYqpnOtBGXdCOQAc=
+github.com/kemadev/ci-cd v0.18.0 h1:FyQXy3HtjF1JIEyUpZS47xtbcLrWjJkijrjauCeJrY4=
+github.com/kemadev/ci-cd v0.18.0/go.mod h1:PwmQTSp3FO0K0aK22f+N2CnVbWTyYmF1u2cQ1EVMU80=
 github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee h1:oYiYlqcvHLbixfLg+steiIzZ78ycbweYeM0aQ+tBLV0=
 github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee/go.mod h1:Gfa5yVno5jFhf7gwjGGxRtB3ngeShdmWb+KW1QWaIFA=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
