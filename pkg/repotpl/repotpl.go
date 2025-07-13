@@ -25,6 +25,8 @@ var (
 	}
 	//nolint:gochecknoglobals // Cobra flags are global
 	SkipAnswered bool
+	//nolint:gochecknoglobals // Cobra flags are global
+	TargetRef string
 )
 
 var (
@@ -113,6 +115,11 @@ func Update(_ *cobra.Command, _ []string) error {
 		slog.Debug("Skip answered questions enabled", slog.Bool("skipAnswered", SkipAnswered))
 
 		baseArgs = append(baseArgs, "--skip-answered")
+	}
+
+	if TargetRef != "" {
+		slog.Debug("Target reference specified", slog.String("targetRef", TargetRef))
+		baseArgs = append(baseArgs, "--vcs-ref", TargetRef)
 	}
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))

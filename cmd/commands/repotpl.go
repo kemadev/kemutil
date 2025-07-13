@@ -40,4 +40,6 @@ func init() {
 	repotplCmd.AddCommand(repotplUpdate)
 	repotplUpdate.Flags().
 		BoolVar(&repotpl.SkipAnswered, "skip-answered", false, "Skip answered questions update")
+	repotplUpdate.Flags().
+		StringVar(&repotpl.TargetRef, "target-ref", "", "Target reference to update the template to. Defaults to empty, which means latest SemVer tag")
 }
