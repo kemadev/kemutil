@@ -169,6 +169,8 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 		return fmt.Errorf("curl binary not found: %w", err)
 	}
 
+	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
+	// nosemgrep: gitlab.gosec.G204-1 // Same
 	latestGoVersionCmd := exec.Command(curlBinary, "-fsSL", "https://go.dev/VERSION?m=text")
 	latestGoVersionOutput, err := latestGoVersionCmd.Output()
 	if err != nil {
