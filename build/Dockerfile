@@ -41,21 +41,26 @@ ARG GOARM64=v8.2
 
 ENV CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM64=${GOARM64} GOAMD64=${GOAMD64}
 
-# Use manually mounted volume for dev, providing hot-reload possibility
-WORKDIR /app
-
 COPY --link --from=clean-deps /usr/local/go /usr/local/go
 
 # hadolint ignore=DL3018
-RUN apk add --no-cache git sudo && adduser -D -u 1000 nonroot && echo "nonroot ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/nonroot && chmod 0440 /etc/sudoers.d/nonroot && chown nonroot:nonroot /usr/local/go
+RUN apk add --no-cache git sudo && \
+	adduser -D -u 1000 nonroot && \
+	echo "nonroot ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/nonroot && \
+	chmod 0440 /etc/sudoers.d/nonroot && \
+	chown nonroot:nonroot /usr/local/go
 
 ENV PATH="/home/nonroot/go/bin:/usr/local/go/bin:${PATH}"
 
 USER 1000:1000
 
-RUN go install github.com/air-verse/air@latest
+RUN git config --global --add safe.directory /src
 
-ENTRYPOINT ["air", "-c", "config/air/.air.toml"]
+WORKDIR /src
+
+COPY . /src
+
+ENTRYPOINT ["/src/tool/dev/docker-entrypoint-dev.sh"]
 
 FROM --platform=${BUILDPLATFORM} clean-deps AS base
 

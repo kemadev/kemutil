@@ -66,6 +66,7 @@ kemutil [command] [flags]
 - Following [Learn Go with tests](https://github.com/quii/learn-go-with-tests) is encouraged
 - Following [Effective Go](https://go.dev/doc/effective_go) and [Google's styleguide](https://google.github.io/styleguide/go/) is encouraged
 - Following [locality of behaviour](https://htmx.org/essays/locality-of-behaviour/) and [principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment) is encouraged
+- Checking [Go proverbs](https://go-proverbs.github.io/) is encouraged
 - Variables, functions, methods, ... should be named in a short and descriptive way
 
 ### Project development
@@ -76,12 +77,8 @@ kemutil [command] [flags]
 
 #### Prerequisites
 
-- [Docker](https://github.com/docker/cli) to run applications in containers. You should configure your credentials store and credential helpers for Docker to work with your container registry
+- [Docker](https://github.com/docker/cli) & [Docker Compose](https://github.com/docker/compose) to run applications in containers. You should configure your credentials store and credential helpers for Docker to work with your container registry
 - [Go](https://github.com/golang/go) to install applications dependencies as needed
-- [Pulumi](https://github.com/pulumi/pulumi) to manage Cloud resources
-- [kind](https://github.com/kubernetes-sigs/kind) to run Kubernetes clusters locally
-- [Kubectl](https://github.com/kubernetes/kubectl) to manage Kubernetes resources (not strictly required but quite handy)
-- Very few other CLI tools such as [git](https://github.com/git/git), [bash](https://www.gnu.org/software/bash/), ... that are most likely already installed on your system
 
 #### Running the project
 
