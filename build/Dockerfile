@@ -1,5 +1,8 @@
-# TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS go-deps
+ARG ALPINE_VERSION=3.21.3
+
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:${ALPINE_VERSION} AS alpine-base
+
+FROM alpine-base AS go-deps
 
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
@@ -18,8 +21,7 @@ RUN --mount=type=bind,source=go.mod,target=go.mod curl -fsSL "https://go.dev/dl/
 # Ensure future GOPATH exists
 RUN mkdir -p /root/go
 
-# TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS clean-deps
+FROM alpine-base AS clean-deps
 
 WORKDIR /deps
 
@@ -40,11 +42,11 @@ ARG GOARM64=v8.2
 
 ENV CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM64=${GOARM64} GOAMD64=${GOAMD64}
 
-RUN --mount=type=secret,id=gitcreds \
+RUN --mount=type=secret,id=netrc \
 	--mount=type=cache,target=/root/go/pkg \
 	--mount=type=bind,source=go.mod,target=go.mod \
 	--mount=type=bind,source=go.sum,target=go.sum \
-	cp /run/secrets/gitcreds /root/.netrc && \
+	cp /run/secrets/netrc /root/.netrc && \
 	go mod download -x
 
 FROM --platform=${BUILDPLATFORM} base AS build
@@ -67,8 +69,7 @@ COPY kemutil /app
 
 ENTRYPOINT ["/app"]
 
-# TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS dev
+FROM alpine-base AS dev
 
 # hadolint ignore=DL3018
 RUN apk add --no-cache git sudo && \
