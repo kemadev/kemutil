@@ -42,4 +42,4 @@ services:
     profiles:
       - dev
     environment:
-      GO_MAIN_FILE_DIR: ./cmd/main
+      GO_MAIN_FILE_DIR: .
