@@ -28,40 +28,6 @@ COPY --link --from=go-deps /root/go /root/go
 
 ENV PATH="/root/go/bin:/usr/local/go/bin:${PATH}"
 
-# TODO Add renovate tracking
-FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS dev
-
-# Docker buildx ARGs
-ARG TARGETOS
-ARG TARGETARCH
-
-ARG CGO_ENABLED=0
-ARG GOAMD64=v3
-ARG GOARM64=v8.2
-
-ENV CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM64=${GOARM64} GOAMD64=${GOAMD64}
-
-COPY --link --from=clean-deps /usr/local/go /usr/local/go
-
-# hadolint ignore=DL3018
-RUN apk add --no-cache git sudo && \
-	adduser -D -u 1000 nonroot && \
-	echo "nonroot ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/nonroot && \
-	chmod 0440 /etc/sudoers.d/nonroot && \
-	chown nonroot:nonroot /usr/local/go
-
-ENV PATH="/home/nonroot/go/bin:/usr/local/go/bin:${PATH}"
-
-USER 1000:1000
-
-RUN git config --global --add safe.directory /src
-
-WORKDIR /src
-
-COPY . /src
-
-ENTRYPOINT ["/src/tool/dev/docker-entrypoint-dev.sh"]
-
 FROM --platform=${BUILDPLATFORM} clean-deps AS base
 
 # Docker buildx ARGs
@@ -100,6 +66,30 @@ LABEL org.opencontainers.image.licenses="MPL-2.0"
 COPY kemutil /app
 
 ENTRYPOINT ["/app"]
+
+# TODO Add renovate tracking
+FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS dev
+
+# hadolint ignore=DL3018
+RUN apk add --no-cache git sudo && \
+	adduser -D -u 1000 nonroot && \
+	echo "nonroot ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/nonroot && \
+	chmod 0440 /etc/sudoers.d/nonroot && \
+	chown nonroot:nonroot /usr/local/go
+
+ENV PATH="/home/nonroot/go/bin:/usr/local/go/bin:${PATH}"
+
+USER 1000:1000
+
+RUN git config --global --add safe.directory /src
+
+WORKDIR /src
+
+COPY --link --from=build /usr/local/bin/app /app
+
+COPY . /src
+
+ENTRYPOINT ["/src/tool/dev/docker-entrypoint-dev.sh"]
 
 # hadolint ignore=DL3007
 FROM gcr.io/distroless/static-debian12:nonroot AS main

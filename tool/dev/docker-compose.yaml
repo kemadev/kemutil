@@ -20,6 +20,8 @@ services:
       context: ../../
       dockerfile: build/Dockerfile
       target: dev
+      secrets:
+        - netrc
     networks:
       - app-main
     secrets:
@@ -30,7 +32,7 @@ services:
     restart: always
     develop:
       watch:
-        - action: sync+restart
+        - action: rebuild
           path: ../../
           target: /src
     # Close immediately and let compose restart the container without waiting for graceful shutdown
@@ -41,5 +43,3 @@ services:
       service: app-template
     profiles:
       - dev
-    environment:
-      GO_MAIN_FILE_DIR: .
