@@ -74,8 +74,7 @@ FROM --platform=${BUILDPLATFORM} docker.io/alpine:3.21.3 AS dev
 RUN apk add --no-cache git sudo && \
 	adduser -D -u 1000 nonroot && \
 	echo "nonroot ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/nonroot && \
-	chmod 0440 /etc/sudoers.d/nonroot && \
-	chown nonroot:nonroot /usr/local/go
+	chmod 0440 /etc/sudoers.d/nonroot
 
 ENV PATH="/home/nonroot/go/bin:/usr/local/go/bin:${PATH}"
 
