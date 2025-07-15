@@ -72,8 +72,9 @@ services:
     environment:
       POSTGRESQL_DATABASE: dev
       POSTGRESQL_PORT_NUMBER: 5432
-      POSTGRESQL_USERNAME: postgres
-      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_POSTGRES_PASSWORD: postgres
+      POSTGRESQL_USERNAME: dev
+      POSTGRESQL_PASSWORD: dev
     ports:
       - 5432:5432
     networks:
@@ -88,9 +89,9 @@ services:
       OPENSEARCH_NODE_NAME: dev
       OPENSEARCH_HTTP_PORT_NUMBER: 9200
       OPENSEARCH_TRANSPORT_PORT_NUMBER: 9300
-      OPENSEARCH_PASSWORD: opensearch
-      OPENSEARCH_DASHBOARDS_PASSWORD: opensearch
-      LOGSTASH_PASSWORD: opensearch
+      OPENSEARCH_PASSWORD: dev
+      OPENSEARCH_DASHBOARDS_PASSWORD: dev
+      LOGSTASH_PASSWORD: dev
     ports:
       - 9200:9200
       - 9300:9300
@@ -104,8 +105,8 @@ services:
     environment:
       VALKEY_DATABASE: dev
       VALKEY_PORT_NUMBER: 6379
-      VALKEY_PASSWORD: valkey
-      VALKEY_PRIMARY_PASSWORD: valkey
+      VALKEY_PASSWORD: dev
+      VALKEY_PRIMARY_PASSWORD: dev
     ports:
       - 6379:6379
     networks:
