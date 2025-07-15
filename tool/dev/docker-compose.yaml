@@ -73,7 +73,7 @@ volumes:
     driver: local
 services:
   postgresql:
-    image: bitnami/postgresql:latest
+    image: bitnami/postgresql:17
     container_name: postgresql
     profiles:
       - never
@@ -98,7 +98,7 @@ volumes:
 
 services:
   valkey:
-    image: bitnami/valkey:latest
+    image: bitnami/valkey:8.1
     container_name: valkey
     profiles:
       - never
@@ -194,7 +194,7 @@ services:
 ---
 services:
   jaeger:
-    image: bitnami/jaeger:latest
+    image: bitnami/jaeger:2
     container_name: jaeger
     profiles:
       - never
