@@ -68,7 +68,7 @@ services:
   postgres:
     image: bitnami/postgresql:latest
     profiles:
-      - never
+      - dev
     environment:
       POSTGRESQL_DATABASE: kemutil
       POSTGRESQL_PORT_NUMBER: 5432
@@ -82,9 +82,8 @@ services:
   opensearch:
     image: bitnami/opensearch:latest
     profiles:
-      - never
+      - dev
     environment:
-      OPENSEARCH_BIND_ADDRESS: '::'
       OPENSEARCH_CLUSTER: kemutil
       OPENSEARCH_NODE_NAME: dev
       OPENSEARCH_HTTP_PORT_NUMBER: 9200
@@ -101,7 +100,7 @@ services:
   valkey:
     image: bitnami/valkey:latest
     profiles:
-      - never
+      - dev
     environment:
       VALKEY_DATABASE: kemutil
       VALKEY_PORT_NUMBER: 6379
