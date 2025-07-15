@@ -101,14 +101,11 @@ services:
     environment:
       OPENSEARCH_CLUSTER: dev
       OPENSEARCH_NODE_NAME: dev
-      OPENSEARCH_HTTP_PORT_NUMBER: 9200
-      OPENSEARCH_TRANSPORT_PORT_NUMBER: 9300
       OPENSEARCH_PASSWORD: dev
       OPENSEARCH_DASHBOARDS_PASSWORD: dev
       LOGSTASH_PASSWORD: dev
     ports:
       - 9200:9200
-      - 9300:9300
     networks:
       - app-main
     restart: always
@@ -116,13 +113,12 @@ services:
     image: bitnami/opensearch-dashboards:latest
     profiles:
       - never
+    depends_on:
+      - opensearch
     environment:
-      OPENSEARCH_DASHBOARDS_OPENSEARCH_PORT_NUMBER: 9200
-      OPENSEARCH_DASHBOARDS_PORT_NUMBER: 5601
       OPENSEARCH_DASHBOARDS_PASSWORD: dev
     ports:
       - 5601:5601
-      - 9200:9200
     networks:
       - app-main
     restart: always
