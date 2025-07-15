@@ -70,7 +70,7 @@ services:
     profiles:
       - dev
     environment:
-      POSTGRESQL_DATABASE: kemutil
+      POSTGRESQL_DATABASE: dev
       POSTGRESQL_PORT_NUMBER: 5432
       POSTGRESQL_USERNAME: postgres
       POSTGRESQL_PASSWORD: postgres
@@ -84,7 +84,7 @@ services:
     profiles:
       - dev
     environment:
-      OPENSEARCH_CLUSTER: kemutil
+      OPENSEARCH_CLUSTER: dev
       OPENSEARCH_NODE_NAME: dev
       OPENSEARCH_HTTP_PORT_NUMBER: 9200
       OPENSEARCH_TRANSPORT_PORT_NUMBER: 9300
@@ -102,7 +102,7 @@ services:
     profiles:
       - dev
     environment:
-      VALKEY_DATABASE: kemutil
+      VALKEY_DATABASE: dev
       VALKEY_PORT_NUMBER: 6379
       VALKEY_PASSWORD: valkey
       VALKEY_PRIMARY_PASSWORD: valkey
