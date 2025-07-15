@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/kemadev/ci-cd:latest
-      options: --user root:root
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
