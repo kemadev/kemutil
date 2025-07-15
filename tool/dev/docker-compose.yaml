@@ -35,7 +35,8 @@ services:
       APP_NAMESPACE: whatever
       OTEL_ENDPOINT_URL: http://localhost:4317
       OTEL_EXPORTER_COMPRESSION: gzip
-
+    ports:
+      - 8080:8080
     restart: always
     develop:
       watch:
@@ -63,6 +64,8 @@ services:
       - --accept-multiclient
       - exec
       - /app
+    ports:
+      - 40000:40000
     security_opt:
       - apparmor=unconfined
     cap_add:
