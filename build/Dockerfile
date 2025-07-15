@@ -71,6 +71,8 @@ ENTRYPOINT ["/app"]
 
 FROM alpine-base AS dev
 
+WORKDIR /src
+
 # hadolint ignore=DL3018
 RUN apk add --no-cache git sudo && \
 	adduser -D -u 1000 nonroot && \
@@ -83,11 +85,9 @@ USER 1000:1000
 
 RUN git config --global --add safe.directory /src
 
-WORKDIR /src
+COPY . .
 
 COPY --link --from=build /usr/local/bin/app /app
-
-COPY . /src
 
 ENTRYPOINT ["/src/tool/dev/docker-entrypoint-dev.sh"]
 
