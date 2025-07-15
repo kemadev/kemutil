@@ -28,4 +28,6 @@ func init() {
 
 	rootCmd.AddCommand(devCmd)
 	devCmd.AddCommand(devLive)
+	devLive.PersistentFlags().
+		BoolVar(&dev.DebugEnabled, "iac-debug", false, "Enable debug profile for the live development server")
 }

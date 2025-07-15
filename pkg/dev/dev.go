@@ -10,6 +10,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// DebugEnabled is a flag to enable debug profile
+// nolint:gochecknoglobals // Cobra flags are global
+var DebugEnabled bool
+
 // StartLive starts the live development server.
 func StartLive(cmd *cobra.Command, args []string) error {
 	slog.Info("Starting live development server")
@@ -19,10 +23,15 @@ func StartLive(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("docker binary not found: %w", err)
 	}
 
+	profile := "dev"
+	if DebugEnabled {
+		profile = "debug"
+	}
+
 	baseArgs := []string{
 		"compose",
 		"--profile",
-		"dev",
+		profile,
 		"--file",
 		"./tool/dev/docker-compose.yaml",
 		"up",
