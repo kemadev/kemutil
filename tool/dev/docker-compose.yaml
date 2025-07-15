@@ -1,7 +1,7 @@
 name: kemadev-kemutil
 
 networks:
-  app-main:
+  app:
     driver: bridge
 
 secrets:
@@ -21,7 +21,7 @@ services:
       secrets:
         - netrc
     networks:
-      - app-main
+      - app
     secrets:
       - netrc
     environment:
@@ -49,6 +49,7 @@ services:
       service: app-template
     profiles:
       - dev
+
   app-debug:
     extends:
       service: app-template
@@ -65,6 +66,12 @@ services:
       - apparmor=unconfined
     cap_add:
       - SYS_PTRACE
+
+---
+volumes:
+  postgres:
+    driver: local
+services:
   postgres:
     image: bitnami/postgresql:latest
     profiles:
@@ -75,11 +82,21 @@ services:
       POSTGRESQL_POSTGRES_PASSWORD: postgres
       POSTGRESQL_USERNAME: dev
       POSTGRESQL_PASSWORD: dev
+    volumes:
+      - postgres:/bitnami/postgresql
     ports:
       - 5432:5432
     networks:
-      - app-main
+      - app
     restart: always
+
+
+---
+volumes:
+  valkey:
+    driver: local
+
+services:
   valkey:
     image: bitnami/valkey:latest
     profiles:
@@ -89,36 +106,89 @@ services:
       VALKEY_PORT_NUMBER: 6379
       VALKEY_PASSWORD: dev
       VALKEY_PRIMARY_PASSWORD: dev
+    volumes:
+      - valkey:/bitnami/valkey/data
     ports:
       - 6379:6379
     networks:
-      - app-main
+      - app
     restart: always
+
+---
+networks:
   opensearch:
-    image: bitnami/opensearch:latest
+    driver: bridge
+
+volumes:
+  opensearch-data1:
+    driver: local
+  opensearch-data2:
+    driver: local
+
+services:
+  opensearch-node1:
     profiles:
       - never
+    image: opensearchproject/opensearch:3
+    container_name: opensearch-node1
     environment:
-      OPENSEARCH_CLUSTER: dev
-      OPENSEARCH_NODE_NAME: dev
-      OPENSEARCH_PASSWORD: dev
-      OPENSEARCH_DASHBOARDS_PASSWORD: dev
-      LOGSTASH_PASSWORD: dev
+      cluster.name: dev
+      node.name: opensearch-node1
+      discovery.seed_hosts: opensearch-node1,opensearch-node2
+      cluster.initial_cluster_manager_nodes: opensearch-node1,opensearch-node2
+      bootstrap.memory_lock: true
+      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: OpenSearchDev_1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data1:/usr/share/opensearch/data
     ports:
       - 9200:9200
+      - 9600:9600
     networks:
-      - app-main
-    restart: always
-  opensearch-dashboards:
-    image: bitnami/opensearch-dashboards:latest
+      - opensearch
+      - app
+  opensearch-node2:
     profiles:
       - never
-    depends_on:
-      - opensearch
+    image: opensearchproject/opensearch:3
+    container_name: opensearch-node2
     environment:
-      OPENSEARCH_DASHBOARDS_PASSWORD: dev
+      cluster.name: dev
+      node.name: opensearch-node2
+      discovery.seed_hosts: opensearch-node1,opensearch-node2
+      cluster.initial_cluster_manager_nodes: opensearch-node1,opensearch-node2
+      bootstrap.memory_lock: true
+      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: OpenSearchDev_1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data2:/usr/share/opensearch/data
+    networks:
+      - opensearch
+      - app
+  opensearch-dashboards:
+    profiles:
+      - never
+    image: opensearchproject/opensearch-dashboards:3
+    container_name: opensearch-dashboards
     ports:
       - 5601:5601
+    expose:
+      - '5601'
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]'
     networks:
-      - app-main
-    restart: always
+      - opensearch
