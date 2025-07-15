@@ -76,7 +76,7 @@ services:
     image: bitnami/postgresql:latest
     container_name: postgresql
     profiles:
-      - dev
+      - never
     environment:
       POSTGRESQL_DATABASE: dev
       POSTGRESQL_PORT_NUMBER: 5432
