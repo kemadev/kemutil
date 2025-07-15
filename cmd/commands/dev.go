@@ -17,8 +17,8 @@ func init() {
 		PreRun: setLogLevel,
 	}
 
-	devLocalUp := &cobra.Command{
-		Use:    "local",
+	localUp := &cobra.Command{
+		Use:    "up",
 		Short:  "Run local development server",
 		Long:   `Run a local development server`,
 		RunE:   dev.StartLocal,
@@ -26,7 +26,7 @@ func init() {
 		PreRun: setLogLevel,
 	}
 
-	devLocalDown := &cobra.Command{
+	localDown := &cobra.Command{
 		Use:    "down",
 		Short:  "Stop local development server",
 		Long:   `Stop the local development server`,
@@ -36,12 +36,12 @@ func init() {
 	}
 
 	rootCmd.AddCommand(devCmd)
-	devCmd.AddCommand(devLocalUp)
-	devLocalUp.PersistentFlags().
+	devCmd.AddCommand(localUp)
+	localUp.PersistentFlags().
 		BoolVar(&dev.Debug, "debugger", false, "Enable debugger startup")
-	devLocalUp.PersistentFlags().
+	localUp.PersistentFlags().
 		BoolVar(&dev.Live, "live", false, "Enable hot reload")
-	devCmd.AddCommand(devLocalDown)
-	devLocalDown.PersistentFlags().
+	devCmd.AddCommand(localDown)
+	localDown.PersistentFlags().
 		BoolVar(&dev.Debug, "debugger", false, "Enable debugger startup")
 }
