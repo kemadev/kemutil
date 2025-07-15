@@ -14,8 +14,6 @@ services:
   app-template:
     profiles:
       - never
-    # Enable colorized output for air
-    tty: true
     build:
       context: ../../
       dockerfile: build/Dockerfile
@@ -67,3 +65,53 @@ services:
       - apparmor=unconfined
     cap_add:
       - SYS_PTRACE
+  postgres:
+    image: bitnami/postgresql:latest
+    profiles:
+      - never
+    environment:
+      POSTGRESQL_DATABASE: kemutil
+      POSTGRESQL_PORT_NUMBER: 5432
+      POSTGRESQL_ENABLE_TLS: yes
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - app-main
+    restart: always
+  opensearch:
+    image: bitnami/opensearch:latest
+    profiles:
+      - never
+    environment:
+      - OPENSEARCH_BIND_AD: '::'
+      - OPENSEARCH_CLUSTER: kemutil
+      - OPENSEARCH_NODE_NAME: dev
+      - OPENSEARCH_HTTP_PORT_NUMBER: 9200
+      - OPENSEARCH_TRANSPORT_PORT_NUMBER: 9300
+      - OPENSEARCH_PASSWORD: opensearch
+      - OPENSEARCH_DASHBOARDS_PASSWORD: opensearch
+      - LOGSTASH_PASSWORD: opensearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - app-main
+    restart: always
+  valkey:
+    image: bitnami/valkey:latest
+    profiles:
+      - never
+    environment:
+      - VALKEY_DATABASE: kemutil
+      - VALKEY_PORT_NUMBER: 6379
+      - VALKEY_TLS_PORT_NUMBER: 6379
+      - VALKEY_PASSWORD: valkey
+      - VALKEY_PRIMARY_PASSWORD: valkey
+      - VALKEY_TLS_ENABLED: yes
+    ports:
+      - 6379:6379
+    networks:
+      - app-main
+    restart: always
