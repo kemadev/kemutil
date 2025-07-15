@@ -80,6 +80,20 @@ services:
     networks:
       - app-main
     restart: always
+  valkey:
+    image: bitnami/valkey:latest
+    profiles:
+      - never
+    environment:
+      VALKEY_DATABASE: dev
+      VALKEY_PORT_NUMBER: 6379
+      VALKEY_PASSWORD: dev
+      VALKEY_PRIMARY_PASSWORD: dev
+    ports:
+      - 6379:6379
+    networks:
+      - app-main
+    restart: always
   opensearch:
     image: bitnami/opensearch:latest
     profiles:
@@ -98,17 +112,17 @@ services:
     networks:
       - app-main
     restart: always
-  valkey:
-    image: bitnami/valkey:latest
+  opensearch-dashboards:
+    image: bitnami/opensearch-dashboards:latest
     profiles:
       - never
     environment:
-      VALKEY_DATABASE: dev
-      VALKEY_PORT_NUMBER: 6379
-      VALKEY_PASSWORD: dev
-      VALKEY_PRIMARY_PASSWORD: dev
+      OPENSEARCH_DASHBOARDS_OPENSEARCH_PORT_NUMBER: 9200
+      OPENSEARCH_DASHBOARDS_PORT_NUMBER: 5601
+      OPENSEARCH_DASHBOARDS_PASSWORD: dev
     ports:
-      - 6379:6379
+      - 5601:5601
+      - 9200:9200
     networks:
       - app-main
     restart: always
