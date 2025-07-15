@@ -202,8 +202,6 @@ services:
       JAEGER_USERNAME: dev
       JAEGER_PASSWORD: dev
       COLLECTOR_OTLP_ENABLED: 'true'
-    volumes:
-      - jaeger:/bitnami/jaeger/data
     ports:
       - 6831:6831
       - 6832:6832
