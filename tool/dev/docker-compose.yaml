@@ -68,7 +68,7 @@ services:
   postgres:
     image: bitnami/postgresql:latest
     profiles:
-      - dev
+      - never
     environment:
       POSTGRESQL_DATABASE: dev
       POSTGRESQL_PORT_NUMBER: 5432
@@ -83,7 +83,7 @@ services:
   opensearch:
     image: bitnami/opensearch:latest
     profiles:
-      - dev
+      - never
     environment:
       OPENSEARCH_CLUSTER: dev
       OPENSEARCH_NODE_NAME: dev
@@ -101,7 +101,7 @@ services:
   valkey:
     image: bitnami/valkey:latest
     profiles:
-      - dev
+      - never
     environment:
       VALKEY_DATABASE: dev
       VALKEY_PORT_NUMBER: 6379
