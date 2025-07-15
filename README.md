@@ -23,7 +23,7 @@ A little helper to make your life easier when working with projects!
 You can install `kemutil` by running:
 
 ```bash
-go install github.com/kemadev/kemutil@latest
+go install github.com/kemadev/kemutil/cmd/kemutil@latest
 ```
 
 ## Getting Started
