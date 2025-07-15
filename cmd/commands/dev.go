@@ -31,5 +31,5 @@ func init() {
 	devLocal.PersistentFlags().
 		BoolVar(&dev.Debug, "debugger", false, "Enable debugger startup")
 	devLocal.PersistentFlags().
-		BoolVar(&dev.Debug, "live", false, "Enable hot reload")
+		BoolVar(&dev.Live, "live", false, "Enable hot reload")
 }
