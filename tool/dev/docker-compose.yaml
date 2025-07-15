@@ -50,3 +50,20 @@ services:
       service: app-template
     profiles:
       - dev
+  app-debug:
+    extends:
+      service: app-template
+    profiles:
+      - debug
+    entrypoint:
+      - dlv
+      - --listen=:40000
+      - --headless=true
+      - --api-version=2
+      - --accept-multiclient
+      - exec
+      - /app
+    security_opt:
+      - apparmor=unconfined
+    cap_add:
+      - SYS_PTRACE
