@@ -10,13 +10,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// DebugEnabled is a flag to enable debug profile
-// nolint:gochecknoglobals // Cobra flags are global
-var DebugEnabled bool
+var (
+	// Debug is a flag to enable debug profile
+	// nolint:gochecknoglobals // Cobra flags are global
+	Debug bool
+	// Live is a flag to enable hot reload
+	Live bool
+)
 
-// StartLive starts the live development server.
-func StartLive(cmd *cobra.Command, args []string) error {
-	slog.Info("Starting live development server")
+// StartLocal starts the live development server.
+func StartLocal(cmd *cobra.Command, args []string) error {
+	slog.Info("Starting local development server")
 
 	binary, err := exec.LookPath("docker")
 	if err != nil {
@@ -24,7 +28,7 @@ func StartLive(cmd *cobra.Command, args []string) error {
 	}
 
 	profile := "dev"
-	if DebugEnabled {
+	if Debug {
 		profile = "debug"
 	}
 
@@ -36,7 +40,10 @@ func StartLive(cmd *cobra.Command, args []string) error {
 		"./tool/dev/docker-compose.yaml",
 		"up",
 		"--build",
-		"--watch",
+	}
+
+	if Live {
+		baseArgs = append(baseArgs, "--watch")
 	}
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))

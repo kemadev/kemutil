@@ -17,17 +17,19 @@ func init() {
 		PreRun: setLogLevel,
 	}
 
-	devLive := &cobra.Command{
-		Use:    "live",
-		Short:  "Run live development server",
-		Long:   `Run a live development server that watches for changes and reloads the application`,
-		RunE:   dev.StartLive,
+	devLocal := &cobra.Command{
+		Use:    "local",
+		Short:  "Run local development server",
+		Long:   `Run a local development server`,
+		RunE:   dev.StartLocal,
 		Args:   cobra.NoArgs,
 		PreRun: setLogLevel,
 	}
 
 	rootCmd.AddCommand(devCmd)
-	devCmd.AddCommand(devLive)
-	devLive.PersistentFlags().
-		BoolVar(&dev.DebugEnabled, "debugger", false, "Enable debugger start for the live development server")
+	devCmd.AddCommand(devLocal)
+	devLocal.PersistentFlags().
+		BoolVar(&dev.Debug, "debugger", false, "Enable debugger startup")
+	devLocal.PersistentFlags().
+		BoolVar(&dev.Debug, "live", false, "Enable hot reload")
 }

@@ -28,7 +28,7 @@ func init() {
 	rootCmd.AddCommand(iacCmd)
 	iacCmd.AddCommand(iacInit)
 	iacCmd.PersistentFlags().
-		BoolVar(&iac.DebugEnabled, "iac-debug", false, "Enable debug output for IaC commands")
+		BoolVar(&iac.Debug, "iac-debug", false, "Enable debug output for IaC commands")
 	iacCmd.PersistentFlags().
 		BoolVar(&iac.Refresh, "refresh", false, "Refresh the IaC stack before updating")
 }

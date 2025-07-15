@@ -27,9 +27,9 @@ const (
 )
 
 var (
-	// DebugEnabled is a flag to enable debug output for Pulumi commands.
+	// Debug is a flag to enable debug output for Pulumi commands.
 	//nolint:gochecknoglobals // Cobra flags are global
-	DebugEnabled bool
+	Debug bool
 	// Refresh is a flag to refresh the Pulumi stack before updating.
 	//nolint:gochecknoglobals // Cobra flags are global
 	Refresh bool
