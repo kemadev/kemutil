@@ -79,7 +79,6 @@ services:
       - never
     environment:
       POSTGRESQL_DATABASE: dev
-      POSTGRESQL_PORT_NUMBER: 5432
       POSTGRESQL_POSTGRES_PASSWORD: postgres
       POSTGRESQL_USERNAME: dev
       POSTGRESQL_PASSWORD: dev
@@ -105,7 +104,6 @@ services:
       - never
     environment:
       VALKEY_DATABASE: dev
-      VALKEY_PORT_NUMBER: 6379
       VALKEY_PASSWORD: dev
       VALKEY_PRIMARY_PASSWORD: dev
     volumes:
@@ -188,9 +186,35 @@ services:
     container_name: opensearch-dashboards
     ports:
       - 5601:5601
-    expose:
-      - '5601'
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]'
     networks:
       - opensearch
+
+---
+services:
+  jaeger:
+    image: bitnami/jaeger:latest
+    container_name: jaeger
+    profiles:
+      - never
+    environment:
+      JAEGER_USERNAME: dev
+      JAEGER_PASSWORD: dev
+      COLLECTOR_OTLP_ENABLED: 'true'
+    volumes:
+      - jaeger:/bitnami/jaeger/data
+    ports:
+      - 6831:6831
+      - 6832:6832
+      - 5778:5778
+      - 16686:16686
+      - 4317:4317
+      - 4318:4318
+      - 14250:14250
+      - 14268:14268
+      - 14269:14269
+      - 9411:9411
+    networks:
+      - app
+    restart: always
