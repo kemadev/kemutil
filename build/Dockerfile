@@ -32,6 +32,8 @@ ENV PATH="/root/go/bin:/usr/local/go/bin:${PATH}"
 
 FROM --platform=${BUILDPLATFORM} clean-deps AS base
 
+WORKDIR /src
+
 # Docker buildx ARGs
 ARG TARGETOS
 ARG TARGETARCH
@@ -95,8 +97,6 @@ USER 1000:1000
 
 RUN go install github.com/go-delve/delve/cmd/dlv@latest && \
 	git config --global --add safe.directory /src
-
-COPY . .
 
 COPY --link --from=debug-build /usr/local/bin/app /app
 

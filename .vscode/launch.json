@@ -4,10 +4,19 @@
 		{
 			"name": "Start debugging",
 			"type": "go",
-			"request": "attach",
-			"mode": "remote",
+			"debugAdapter": "dlv-dap",
+			"request": "launch",
+			"mode": "exec",
+			"program": "/app",
+			"hideSystemGoroutines": true,
+			"substitutePath": [
+				{
+					"from": "${workspaceFolder}",
+					"to": "/src"
+				},
+			],
 			"host": "localhost",
-			"port": 40000,
+			"port": 50000,
 		}
 	]
 }
