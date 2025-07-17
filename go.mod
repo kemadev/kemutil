@@ -3,8 +3,8 @@ module github.com/kemadev/kemutil
 go 1.24.5
 
 require (
-	github.com/kemadev/ci-cd v0.18.0
-	github.com/kemadev/infrastructure-components v0.0.0-20250711153913-d6def4e51aee
+	github.com/kemadev/ci-cd v0.22.0
+	github.com/kemadev/infrastructure-components v0.0.0-20250716141243-0404d11f88de
 	github.com/spf13/cobra v1.9.1
 )
 
@@ -68,7 +68,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.14.3 // indirect
-	github.com/pulumi/pulumi/sdk/v3 v3.181.0 // indirect
+	github.com/pulumi/pulumi/sdk/v3 v3.182.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06 // indirect
@@ -92,7 +92,7 @@ require (
 	golang.org/x/term v0.33.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
 	golang.org/x/tools v0.35.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250707201910-8d1bb00bc6a7 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250715232539-7130f93afb79 // indirect
 	google.golang.org/grpc v1.73.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
