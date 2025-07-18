@@ -59,7 +59,7 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 
 // StopLocal stops the live development server.
 func StopLocal(cmd *cobra.Command, args []string) error {
-	slog.Info("Starting local development server")
+	slog.Info("Shutting down local development server")
 
 	binary, err := exec.LookPath("docker")
 	if err != nil {
