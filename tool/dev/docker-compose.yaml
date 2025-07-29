@@ -3,6 +3,10 @@ name: kemadev-kemutil
 networks:
   app:
     driver: bridge
+    enable_ipv6: true
+    ipam:
+       config:
+         - subnet: 2001:db8::/64
 
 secrets:
   netrc:
@@ -27,12 +31,13 @@ services:
     environment:
       # Not all projects under kemadev are private, but convenient not to set all exceptions
       GOPRIVATE: "github.com/kemadev/*"
-      RUNTIME_ENV: dev
-      APP_NAME: kemutil
-      APP_VERSION: dev
-      APP_NAMESPACE: whatever
-      OTEL_ENDPOINT_URL: http://localhost:4317
-      OTEL_EXPORTER_COMPRESSION: gzip
+      KEMA_RUNTIME_ENVIRONMENT: dev
+      KEMA_RUNTIME_APP_NAME: go-framework
+      KEMA_RUNTIME_APP_VERSION: dev
+      KEMA_RUNTIME_APP_NAMESPACE: whatever
+      KEMA_OBSERVABILITY_ENDPOINT_URL: http://kemadev-go-framework-jaeger-1:4317
+      # Set this to a positive value to export metrics to stdout
+      KEMA_OBSERVABILITY_METRICS_EXPORT_INTERVAL_SECONDS: -1
     ports:
       - 8080:8080
     restart: always
@@ -55,11 +60,8 @@ services:
       service: app-template
     profiles:
       - debug
-    entrypoint:
-      - dlv
-      - dap
-      - --listen
-      - :50000
+    build:
+      target: debug
     ports:
       - 50000:50000
     security_opt:
@@ -68,22 +70,36 @@ services:
       - SYS_PTRACE
 
 ---
+# Provide Jaeger for tracing
+services:
+  jaeger:
+    image: jaegertracing/jaeger:latest
+    profiles:
+      - dev
+    ports:
+      - 16686:16686
+      - 4317:4317
+      - 4318:4318
+    networks:
+      - app
+    restart: always
+
+---
+# Provide Postgresql for SQL, enable by setting according profile
 volumes:
   postgresql:
     driver: local
 services:
   postgresql:
-    image: bitnami/postgresql:17
-    container_name: postgresql
+    image: postgres:alpine
     profiles:
       - never
     environment:
-      POSTGRESQL_DATABASE: dev
-      POSTGRESQL_POSTGRES_PASSWORD: postgres
-      POSTGRESQL_USERNAME: dev
-      POSTGRESQL_PASSWORD: dev
+      POSTGRES_DB: dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
     volumes:
-      - postgres:/bitnami/postgresql
+      - postgresql:/var/lib/postgresql
     ports:
       - 5432:5432
     networks:
@@ -92,22 +108,20 @@ services:
 
 
 ---
+# Provide Valkey for NoSQL, enable by setting according profile
 volumes:
   valkey:
     driver: local
 
 services:
   valkey:
-    image: bitnami/valkey:8.1
-    container_name: valkey
+    image: valkey/valkey:alpine
     profiles:
       - never
     environment:
-      VALKEY_DATABASE: dev
-      VALKEY_PASSWORD: dev
-      VALKEY_PRIMARY_PASSWORD: dev
+      VALKEY_EXTRA_FLAGS: --protected-mode yes --requirepass dev
     volumes:
-      - valkey:/bitnami/valkey/data
+      - valkey:/data
     ports:
       - 6379:6379
     networks:
@@ -115,27 +129,25 @@ services:
     restart: always
 
 ---
+# Provide Opensearch for search, enable by setting according profile
 networks:
   opensearch:
     driver: bridge
 
 volumes:
-  opensearch-data1:
-    driver: local
-  opensearch-data2:
+  opensearch:
     driver: local
 
 services:
-  opensearch-node1:
+  opensearch:
     profiles:
       - never
-    image: opensearchproject/opensearch:3
-    container_name: opensearch-node1
+    image: opensearchproject/opensearch:latest
     environment:
       cluster.name: dev
-      node.name: opensearch-node1
-      discovery.seed_hosts: opensearch-node1,opensearch-node2
-      cluster.initial_cluster_manager_nodes: opensearch-node1,opensearch-node2
+      node.name: kemadev-kemutil-opensearch-1
+      discovery.seed_hosts: kemadev-kemutil-opensearch-1
+      cluster.initial_cluster_manager_nodes: kemadev-kemutil-opensearch-1
       bootstrap.memory_lock: true
       OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
       OPENSEARCH_INITIAL_ADMIN_PASSWORD: OpenSearchDev_1
@@ -147,72 +159,20 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - opensearch-data1:/usr/share/opensearch/data
+      - opensearch:/usr/share/opensearch/data
     ports:
       - 9200:9200
       - 9600:9600
     networks:
       - opensearch
       - app
-  opensearch-node2:
-    profiles:
-      - never
-    image: opensearchproject/opensearch:3
-    container_name: opensearch-node2
-    environment:
-      cluster.name: dev
-      node.name: opensearch-node2
-      discovery.seed_hosts: opensearch-node1,opensearch-node2
-      cluster.initial_cluster_manager_nodes: opensearch-node1,opensearch-node2
-      bootstrap.memory_lock: true
-      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
-      OPENSEARCH_INITIAL_ADMIN_PASSWORD: OpenSearchDev_1
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    volumes:
-      - opensearch-data2:/usr/share/opensearch/data
-    networks:
-      - opensearch
-      - app
   opensearch-dashboards:
     profiles:
       - never
-    image: opensearchproject/opensearch-dashboards:3
-    container_name: opensearch-dashboards
+    image: opensearchproject/opensearch-dashboards:latest
     ports:
       - 5601:5601
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]'
+      OPENSEARCH_HOSTS: '["https://kemadev-kemutil-opensearch-1:9200"]'
     networks:
       - opensearch
-
----
-services:
-  jaeger:
-    image: bitnami/jaeger:2
-    container_name: jaeger
-    profiles:
-      - never
-    environment:
-      JAEGER_USERNAME: dev
-      JAEGER_PASSWORD: dev
-      COLLECTOR_OTLP_ENABLED: 'true'
-    ports:
-      - 6831:6831
-      - 6832:6832
-      - 5778:5778
-      - 16686:16686
-      - 4317:4317
-      - 4318:4318
-      - 14250:14250
-      - 14268:14268
-      - 14269:14269
-      - 9411:9411
-    networks:
-      - app
-    restart: always

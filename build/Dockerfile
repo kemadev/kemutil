@@ -30,7 +30,7 @@ COPY --link --from=go-deps /root/go /root/go
 
 ENV PATH="/root/go/bin:/usr/local/go/bin:${PATH}"
 
-FROM --platform=${BUILDPLATFORM} clean-deps AS base
+FROM clean-deps AS base
 
 WORKDIR /src
 
@@ -44,21 +44,23 @@ ARG GOARM64=v8.2
 
 ENV CGO_ENABLED=${CGO_ENABLED} GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM64=${GOARM64} GOAMD64=${GOAMD64}
 
+RUN apk add --no-cache git
 RUN --mount=type=secret,id=netrc \
 	--mount=type=cache,target=/root/go/pkg \
 	--mount=type=bind,source=go.mod,target=go.mod \
 	--mount=type=bind,source=go.sum,target=go.sum \
+	--mount=type=bind,source=./mnt,target=./mnt \
 	cp /run/secrets/netrc /root/.netrc && \
 	go mod download -x
 
-FROM --platform=${BUILDPLATFORM} base AS build
+FROM base AS build
 
 RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=cache,target=/root/.cache \
 	--mount=type=bind,source=.,target=. \
 	go build -ldflags='-s -w' -o /usr/local/bin/app ./cmd/kemutil
 
-FROM --platform=${BUILDPLATFORM} base AS debug-build
+FROM base AS debug-build
 
 RUN --mount=type=cache,target=/root/go/pkg \
 		--mount=type=cache,target=/root/.cache \
@@ -99,9 +101,13 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest && \
 	git config --global --add safe.directory /src
 
 COPY --link --from=debug-build /usr/local/bin/app /app
-COPY --link ./tool/dev/docker-entrypoint-dev.sh /src/tool/dev/docker-entrypoint-dev.sh
+COPY --link ./tool/dev/docker-entrypoint-dev.sh /usr/local/bin/docker-entrypoint-dev.sh
 
-ENTRYPOINT ["/src/tool/dev/docker-entrypoint-dev.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-dev.sh"]
+
+FROM dev AS debug
+
+ENTRYPOINT [ "dlv", "dap", "--listen", ":50000" ]
 
 # hadolint ignore=DL3007
 FROM gcr.io/distroless/static-debian12:nonroot AS main
