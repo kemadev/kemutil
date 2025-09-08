@@ -23,7 +23,7 @@ type templatedFile struct {
 const (
 	StackNameDev  = "dev"
 	StackNameNext = "next"
-	StackNameProd = "prod"
+	StackNameProd = "main"
 )
 
 var (
