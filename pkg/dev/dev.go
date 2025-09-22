@@ -75,16 +75,6 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 
 		com := exec.Command(ghBinary, ghArgs...)
 
-		err = com.Run()
-		if err != nil {
-			return fmt.Errorf("error running git token command: %w", err)
-		}
-
-		err = com.Wait()
-		if err != nil {
-			return fmt.Errorf("error waiting git token command: %w", err)
-		}
-
 		token, err := com.CombinedOutput()
 		if err != nil {
 			return fmt.Errorf("error getting git token command output: %w", err)
