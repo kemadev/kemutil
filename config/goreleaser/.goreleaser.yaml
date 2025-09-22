@@ -37,7 +37,7 @@ builds:
 
 gomod:
   env:
-    - GOPRIVATE=github.com/kemadev/server-bootstrap
+    - GOPRIVATE=github.com/kemadev
   mod: mod
 
 snapshot:
@@ -150,3 +150,7 @@ changelog:
       order: 970
     - title: Other Changes 🔄
       order: 999
+
+release:
+  prerelease: '{{ not (contains .Branch "main") }}'
+  make_latest: '{{ contains .Branch "main" }}'
