@@ -1,6 +1,6 @@
 # kemutil
 
-CLI tool making your life easier when working with projects!
+CLCLI utility for everyday tasks
 
 ## Installation
 
