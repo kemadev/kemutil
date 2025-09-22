@@ -55,6 +55,8 @@ github.com/kemadev/ci-cd v0.31.0 h1:thxvxcAUPm2eSNjjzC1vqD+P7QGK6Gda+U6E8w5Bdfk=
 github.com/kemadev/ci-cd v0.31.0/go.mod h1:JU7TvKPs8055svgBSPBFEPG/wfryHOR+WW9ZQ+ThCII=
 github.com/kemadev/ci-cd v0.32.0 h1:g0IzhOkTvZLMBh2Cr0acnLP+8xKvmVyg2m190I8TU1A=
 github.com/kemadev/ci-cd v0.32.0/go.mod h1:Tu2L/T8P6h7mZThDbT7MghKx9PTEFI2o0qUDTrE7o7Y=
+github.com/kemadev/ci-cd v0.33.0 h1:uLhxVLoagI3Ziva+BEJMSeV9njb2l3OBI0hCV27Z7Go=
+github.com/kemadev/ci-cd v0.33.0/go.mod h1:Odv10ZLqYt1KRQRX10bvmVjCMPEomY9A6WO+yutqVbA=
 github.com/kemadev/go-framework v0.0.0-20250922085630-69a7fecea043 h1:leXYnKfHd4jgPas7FxM9ucxEAQ+W5k6nnVzC3ynUg8A=
 github.com/kemadev/go-framework v0.0.0-20250922085630-69a7fecea043/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
 github.com/kemadev/go-framework v0.3.0 h1:xqiegNXMWl1+C7G7dUgL+kd0o52jVtUNUFiBqLAepek=
@@ -63,6 +65,8 @@ github.com/kemadev/go-framework v0.4.0 h1:9YWIZ9aBixEO+fNnl2D2KEJvmtddKaC+CZPn4X
 github.com/kemadev/go-framework v0.4.0/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
 github.com/kemadev/go-framework v0.5.0 h1:3+0zhhqAxvapfWUPOATFQAWI/d1q6ghl7IShQPhEXJY=
 github.com/kemadev/go-framework v0.5.0/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
+github.com/kemadev/go-framework v0.6.0 h1:OFY0M1ULWTuBTrdDGd/bA3EFRm2jyYQe2kPy0Gt//eU=
+github.com/kemadev/go-framework v0.6.0/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
 github.com/kevinburke/ssh_config v1.4.0 h1:6xxtP5bZ2E4NF5tuQulISpTO2z8XbtH8cg1PWkxoFkQ=
 github.com/kevinburke/ssh_config v1.4.0/go.mod h1:q2RIzfka+BXARoNexmF9gkxEX7DmvbW9P4hIVx2Kg4M=
 github.com/klauspost/cpuid/v2 v2.3.0 h1:S4CRMLnYUhGeDFDqkGriYKdfoFlDnMtqTiI/sFzhA9Y=
