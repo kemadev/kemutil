@@ -32,7 +32,7 @@ var (
 )
 
 // StartLocal starts the live development server.
-func StartLocal(cmd *cobra.Command, args []string) error {
+func StartLocal(_ *cobra.Command, _ []string) error {
 	slog.Info("Starting local development server")
 
 	binary, err := exec.LookPath("docker")
@@ -78,6 +78,7 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 			"token",
 		}
 
+		// nosemgrep: gitlab.gosec.G204-1 // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 		com := exec.Command(ghBinary, ghArgs...)
 
 		token, err := com.CombinedOutput()
@@ -108,7 +109,7 @@ password ` + string(token) + `
 }
 
 // StopLocal stops the live development server.
-func StopLocal(cmd *cobra.Command, args []string) error {
+func StopLocal(_ *cobra.Command, _ []string) error {
 	slog.Info("Shutting down local development server")
 
 	binary, err := exec.LookPath("docker")
