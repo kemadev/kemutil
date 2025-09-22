@@ -1,6 +1,6 @@
 # kemutil
 
-A little helper to make your life easier when working with projects!
+CLI tool making your life easier when working with projects!
 
 ## Installation
 
