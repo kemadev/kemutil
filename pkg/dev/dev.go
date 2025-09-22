@@ -1,3 +1,6 @@
+// Copyright 2025 kemadev
+// SPDX-License-Identifier: MPL-2.0
+
 package dev
 
 import (
@@ -12,9 +15,9 @@ import (
 
 var (
 	// Debug is a flag to enable debug profile
-	// nolint:gochecknoglobals // Cobra flags are global
+	//nolint:gochecknoglobals // Cobra flags are global
 	Debug bool
-	// Live is a flag to enable hot reload
+	// Live is a flag to enable hot reload.
 	Live bool
 )
 

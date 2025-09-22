@@ -11,7 +11,7 @@ import (
 func init() {
 	devCmd := &cobra.Command{
 		Use:    "dev",
-		Short:  "Run developement tasks",
+		Short:  "Run development tasks",
 		Long:   `Run everyday development tasks like starting a local live dev server, ...`,
 		Args:   cobra.MinimumNArgs(1),
 		PreRun: setLogLevel,

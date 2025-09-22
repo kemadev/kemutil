@@ -1,3 +1,6 @@
+// Copyright 2025 kemadev
+// SPDX-License-Identifier: MPL-2.0
+
 package str
 
 import (
@@ -5,7 +8,7 @@ import (
 	"strings"
 )
 
-// Convert a string to kebab-case
+// Convert a string to kebab-case.
 func KebabCase(str string) string {
 	// Replace non-alphanumeric characters with hyphens
 	reAlnumdash := regexp.MustCompile(`[^a-zA-Z0-9-]`)
@@ -25,5 +28,6 @@ func KebabCase(str string) string {
 	str = strings.TrimPrefix(str, "-")
 	// Trim trailing hyphens
 	str = strings.TrimSuffix(str, "-")
+
 	return str
 }
