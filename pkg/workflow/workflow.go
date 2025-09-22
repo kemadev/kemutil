@@ -149,7 +149,7 @@ password ` + string(token) + `
 
 		for pos, arg := range baseArgs {
 			redacted := arg
-			if len(netrc) > 0 && redacted == netrc {
+			if len(netrc) > 0 && strings.Contains(arg, netrc) {
 				redacted = netrc[0:(len(netrc)/4)] + "..."
 			}
 
@@ -193,6 +193,45 @@ func Custom(cmd *cobra.Command, args []string) error {
 		baseArgs = append(baseArgs, "-e", "RUNNER_SILENT=1")
 	}
 
+	var netrc string
+
+	if ExportNetrc {
+		machine, err := git.NewGitService().GetGitBasePath()
+		if err != nil {
+			return fmt.Errorf("error getting git repository: %w", err)
+		}
+
+		machineParts := strings.Split(machine, "/")
+		if len(machineParts) < 1 {
+			return fmt.Errorf("error parsing git repository URL: %w", ErrRepoURLInvalid)
+		}
+
+		machine = machineParts[0]
+
+		ghBinary, err := exec.LookPath("gh")
+		if err != nil {
+			return fmt.Errorf("error finding gh binary: %w", err)
+		}
+
+		ghArgs := []string{
+			"auth",
+			"token",
+		}
+
+		com := exec.Command(ghBinary, ghArgs...)
+
+		token, err := com.CombinedOutput()
+		if err != nil {
+			return fmt.Errorf("error getting git token command output: %w", err)
+		}
+
+		netrc = `machine ` + machine + `
+login git
+password ` + string(token) + `
+`
+		baseArgs = append(baseArgs, "-e", auth.NetrcEnvVarKey+"="+netrc)
+	}
+
 	baseArgs = append(baseArgs, strings.TrimPrefix(imageURL.String(), "//"))
 
 	baseArgs = append(baseArgs, args...)
@@ -203,7 +242,24 @@ func Custom(cmd *cobra.Command, args []string) error {
 		baseArgs = append(baseArgs, "--fix")
 	}
 
-	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))
+	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", func() []string {
+		if netrc == "" {
+			return baseArgs
+		}
+
+		redactedArgs := make([]string, len(baseArgs))
+
+		for pos, arg := range baseArgs {
+			redacted := arg
+			if len(netrc) > 0 && strings.Contains(arg, netrc) {
+				redacted = netrc[0:(len(netrc)/4)] + "..."
+			}
+
+			redactedArgs[pos] = redacted
+		}
+
+		return redactedArgs
+	}()))
 
 	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // The purpose of the command is to run a custom command
 	err = syscall.Exec(binary, append([]string{binary}, baseArgs...), os.Environ())
