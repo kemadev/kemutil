@@ -9,8 +9,8 @@ import (
 	"os"
 	"path"
 
-	ut "github.com/kemadev/infrastructure-components/pkg/util"
 	"github.com/kemadev/kemutil/internal/gomodtool"
+	"github.com/kemadev/kemutil/pkg/str"
 	"github.com/kemadev/kemutil/pkg/wgo"
 	"github.com/spf13/cobra"
 )
@@ -54,7 +54,7 @@ func renderTemplates() ([]templatedFile, error) {
 		return nil, fmt.Errorf("error getting expected Go module name: %w", err)
 	}
 
-	moduleNameDash := ut.KebabCase(moduleName)
+	moduleNameDash := str.KebabCase(moduleName)
 
 	pulumiYaml := templatedFile{
 		Name: "Pulumi.yaml",

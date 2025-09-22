@@ -32,7 +32,7 @@ func GetGoModExpectedName() (string, error) {
 }
 
 func GetGoModExpectedNameFromPath(path string) (string, error) {
-	basePath, err := git.GetGitBasePath()
+	basePath, err := git.NewGitService().GetGitBasePath()
 	if err != nil {
 		return "", fmt.Errorf("error getting git repository base path: %w", err)
 	}

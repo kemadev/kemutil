@@ -1,10 +1,9 @@
 module github.com/kemadev/kemutil
 
-go 1.24.6
+go 1.24.7
 
 require (
-	github.com/kemadev/ci-cd v0.22.0
-	github.com/kemadev/infrastructure-components v0.0.0-20250908111830-ca84c9b94611
+	github.com/kemadev/ci-cd v0.22.1
 	github.com/spf13/cobra v1.10.1
 )
 
@@ -19,7 +18,7 @@ require (
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-git/gcfg/v2 v2.0.2 // indirect
 	github.com/go-git/go-billy/v6 v6.0.0-20250906064328-0118fd22f1d9 // indirect
-	github.com/go-git/go-git/v6 v6.0.0-20250906064640-2917a7134436 // indirect
+	github.com/go-git/go-git/v6 v6.0.0-20250921083035-edb95f36f415 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -28,9 +27,9 @@ require (
 	github.com/pjbgf/sha1cd v0.5.0 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
-	golang.org/x/crypto v0.41.0 // indirect
-	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b // indirect
-	golang.org/x/net v0.43.0 // indirect
+	golang.org/x/crypto v0.42.0 // indirect
+	golang.org/x/exp v0.0.0-20250911091902-df9299821621 // indirect
+	golang.org/x/net v0.44.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/term v0.35.0 // indirect
 	golang.org/x/text v0.29.0 // indirect

@@ -10,6 +10,12 @@ You can install `kemutil` by running:
 go install github.com/kemadev/kemutil/cmd/kemutil@latest
 ```
 
+Completions are available through
+
+```bash
+kemutil completion <shell>
+```
+
 ## Getting Started
 
 You can run `kemutil` by running:
