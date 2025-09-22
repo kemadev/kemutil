@@ -40,6 +40,8 @@ func init() {
 		BoolVar(&workflow.Hot, "hot", false, "Enable hot reload mode")
 	workflowCmd.PersistentFlags().
 		BoolVar(&workflow.RunnerDebug, "runner-debug", false, "Enable debug mode for the CI/CD runner")
+	workflowCmd.PersistentFlags().
+		BoolVar(&workflow.ExportNetrc, "netrc", false, "Export netrc")
 	workflowCmd.AddCommand(workflowCiCmd)
 	workflowCmd.AddCommand(workflowCustomCmd)
 	workflowCmd.PersistentFlags().BoolVar(&workflow.Fix, "fix", false, "Enable fix mode")

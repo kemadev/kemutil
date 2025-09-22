@@ -4,21 +4,30 @@
 package dev
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
 	"os/exec"
+	"strings"
 	"syscall"
 
+	"github.com/kemadev/go-framework/pkg/git"
 	"github.com/spf13/cobra"
 )
+
+var ErrRepoURLInvalid = errors.New("repository URL is invalid")
 
 var (
 	// Debug is a flag to enable debug profile
 	//nolint:gochecknoglobals // Cobra flags are global
 	Debug bool
 	// Live is a flag to enable hot reload.
+	//nolint:gochecknoglobals // Cobra flags are global
 	Live bool
+	// ExportNetrc is a flag to export netrc environment variable
+	//nolint:gochecknoglobals // Cobra flags are global
+	ExportNetrc bool
 )
 
 // StartLocal starts the live development server.
@@ -41,9 +50,51 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 		profile,
 		"--file",
 		"./tool/dev/docker-compose.yaml",
-		"up",
-		"--build",
 	}
+
+	if ExportNetrc {
+		machine, err := git.NewGitService().GetGitBasePath()
+		if err != nil {
+			return fmt.Errorf("error getting git repository: %w", err)
+		}
+		machineParts := strings.Split(machine, "/")
+		if len(machineParts) < 1 {
+			return fmt.Errorf("error parsing git repository URL: %w", ErrRepoURLInvalid)
+		}
+		machine = machineParts[0]
+
+		ghBinary, err := exec.LookPath("gh")
+		if err != nil {
+			return fmt.Errorf("error finding gh binary: %w", err)
+		}
+
+		ghArgs := []string{
+			"auth",
+			"token",
+		}
+
+		com := exec.Command(ghBinary, ghArgs...)
+
+		err = com.Run()
+		if err != nil {
+			return fmt.Errorf("error getting git token: %w", err)
+		}
+
+		token, err := com.CombinedOutput()
+		if err != nil {
+			return fmt.Errorf("error getting git token command output: %w", err)
+		}
+
+		netrc := `machine ` + machine + `
+login git
+password ` + string(token) + `
+`
+		baseArgs = append(baseArgs, "-e")
+		baseArgs = append(baseArgs, "KEMA_NETRC="+netrc)
+	}
+
+	baseArgs = append(baseArgs, "up")
+	baseArgs = append(baseArgs, "--build")
 
 	if Live {
 		baseArgs = append(baseArgs, "--watch")

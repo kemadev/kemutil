@@ -41,6 +41,8 @@ func init() {
 		BoolVar(&dev.Debug, "debugger", false, "Enable debugger startup")
 	localUp.PersistentFlags().
 		BoolVar(&dev.Live, "live", false, "Enable hot reload")
+	localUp.PersistentFlags().
+		BoolVar(&dev.ExportNetrc, "netrc", false, "Export netrc")
 	devCmd.AddCommand(localDown)
 	localDown.PersistentFlags().
 		BoolVar(&dev.Debug, "debugger", false, "Enable debugger startup")
