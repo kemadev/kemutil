@@ -3,8 +3,8 @@ module github.com/kemadev/kemutil
 go 1.24.7
 
 require (
-	github.com/kemadev/ci-cd v0.29.0
-	github.com/kemadev/go-framework v0.3.0
+	github.com/kemadev/ci-cd v0.30.0
+	github.com/kemadev/go-framework v0.4.0
 	github.com/spf13/cobra v1.10.1
 )
 
