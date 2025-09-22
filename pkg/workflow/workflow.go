@@ -94,7 +94,7 @@ func Ci(cmd *cobra.Command, _ []string) error {
 		baseArgs = append(baseArgs, "-e", "RUNNER_SILENT=1")
 	}
 
-	var netrc string
+	gitToken := ""
 
 	if ExportNetrc {
 		machine, err := git.NewGitService().GetGitBasePath()
@@ -126,7 +126,8 @@ func Ci(cmd *cobra.Command, _ []string) error {
 			return fmt.Errorf("error getting git token command output: %w", err)
 		}
 
-		netrc = `machine ` + machine + `
+		gitToken = string(token)
+		netrc := `machine ` + machine + `
 login git
 password ` + string(token) + `
 `
@@ -141,7 +142,7 @@ password ` + string(token) + `
 	}
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", func() []string {
-		if netrc == "" {
+		if gitToken == "" {
 			return baseArgs
 		}
 
@@ -149,13 +150,13 @@ password ` + string(token) + `
 
 		for pos, arg := range baseArgs {
 			redacted := arg
-			if len(netrc) > 0 && strings.Contains(arg, netrc) {
-				redactedParts := strings.Split(redacted, netrc)
+			if strings.Contains(arg, gitToken) {
+				redactedParts := strings.Split(redacted, gitToken)
 				if len(redactedParts) != 2 {
-					return []string{"MALFORMED NETRC"}
+					return []string{"MALFORMED GIT TOKEN"}
 				}
 
-				redacted = strings.Join(redactedParts, netrc[0:(len(netrc)/4)]+"...")
+				redacted = strings.Join(redactedParts, gitToken[0:(len(gitToken)/4)]+"...")
 			}
 
 			redactedArgs[pos] = redacted
@@ -198,7 +199,7 @@ func Custom(cmd *cobra.Command, args []string) error {
 		baseArgs = append(baseArgs, "-e", "RUNNER_SILENT=1")
 	}
 
-	var netrc string
+	gitToken := ""
 
 	if ExportNetrc {
 		machine, err := git.NewGitService().GetGitBasePath()
@@ -230,7 +231,8 @@ func Custom(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("error getting git token command output: %w", err)
 		}
 
-		netrc = `machine ` + machine + `
+		gitToken = string(token)
+		netrc := `machine ` + machine + `
 login git
 password ` + string(token) + `
 `
@@ -248,7 +250,7 @@ password ` + string(token) + `
 	}
 
 	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", func() []string {
-		if netrc == "" {
+		if gitToken == "" {
 			return baseArgs
 		}
 
@@ -256,13 +258,13 @@ password ` + string(token) + `
 
 		for pos, arg := range baseArgs {
 			redacted := arg
-			if len(netrc) > 0 && strings.Contains(arg, netrc) {
-				redactedParts := strings.Split(redacted, netrc)
+			if strings.Contains(arg, gitToken) {
+				redactedParts := strings.Split(redacted, gitToken)
 				if len(redactedParts) != 2 {
-					return []string{"MALFORMED NETRC"}
+					return []string{"MALFORMED GIT TOKEN"}
 				}
 
-				redacted = strings.Join(redactedParts, netrc[0:(len(netrc)/4)]+"...")
+				redacted = strings.Join(redactedParts, gitToken[0:(len(gitToken)/4)]+"...")
 			}
 
 			redactedArgs[pos] = redacted
