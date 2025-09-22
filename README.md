@@ -24,4 +24,4 @@ You can run `kemutil` by running:
 kemutil [command] [flags]
 ```
 
-- Simply run `kemutil help` to see the list of available commands and their usage.
+- Simply run `kemutil help` to see the list of available commands and their usage
