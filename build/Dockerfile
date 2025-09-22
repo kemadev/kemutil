@@ -49,7 +49,6 @@ RUN --mount=type=secret,id=netrc \
 	--mount=type=cache,target=/root/go/pkg \
 	--mount=type=bind,source=go.mod,target=go.mod \
 	--mount=type=bind,source=go.sum,target=go.sum \
-	--mount=type=bind,source=./mnt,target=./mnt \
 	cp /run/secrets/netrc /root/.netrc && \
 	go mod download -x
 
@@ -58,14 +57,14 @@ FROM base AS build
 RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=cache,target=/root/.cache \
 	--mount=type=bind,source=.,target=. \
-	go build -ldflags='-s -w' -o /usr/local/bin/app ./cmd/main
+	go build -ldflags='-s -w' -o /usr/local/bin/app ./cmd/kemutil
 
 FROM base AS debug-build
 
 RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=cache,target=/root/.cache \
 	--mount=type=bind,source=.,target=. \
-	go build -gcflags="all=-N -l" -o /usr/local/bin/app ./cmd/main
+	go build -gcflags="all=-N -l" -o /usr/local/bin/app ./cmd/kemutil
 
 FROM --platform=${BUILDPLATFORM} gcr.io/distroless/static-debian12:nonroot AS goreleaser
 

@@ -38,6 +38,7 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 		profile,
 		"--file",
 		"./tool/dev/docker-compose.yaml",
+		"--secret=id=netrc,type=env,src=netrc",
 		"up",
 		"--build",
 	}
