@@ -8,7 +8,7 @@ networks:
 secrets:
   netrc:
     name: netrc
-    environment: GIT_TOKEN
+    environment: KEMA_NETRC
 
 services:
   app-template:
