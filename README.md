@@ -1,6 +1,6 @@
 # kemutil
 
-CLCLI utility for everyday tasks
+CLI utility for everyday tasks
 
 ## Installation
 
