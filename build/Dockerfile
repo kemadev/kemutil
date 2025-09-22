@@ -76,7 +76,7 @@ LABEL org.opencontainers.image.source="https://github.com/kemadev/kemutil"
 LABEL org.opencontainers.image.vendor="kemadev"
 LABEL org.opencontainers.image.licenses="MPL-2.0"
 
-COPY reqbigo /app
+COPY kemutil /app
 
 ENTRYPOINT ["/app"]
 
