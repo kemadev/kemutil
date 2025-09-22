@@ -49,8 +49,6 @@ var (
 	}
 )
 
-const GitTokenEnvVarKey string = "GIT_TOKEN"
-
 func getImageURL() url.URL {
 	if Hot {
 		slog.Debug("Hot reload mode enabled", slog.String("imageUrl", ciImageDevURL.String()))
