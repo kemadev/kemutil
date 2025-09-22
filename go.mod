@@ -4,7 +4,7 @@ go 1.24.7
 
 require (
 	github.com/kemadev/ci-cd v0.29.0
-	github.com/kemadev/go-framework v0.0.0-20250922085630-69a7fecea043
+	github.com/kemadev/go-framework v0.3.0
 	github.com/spf13/cobra v1.10.1
 )
 
@@ -19,7 +19,7 @@ require (
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-git/gcfg/v2 v2.0.2 // indirect
 	github.com/go-git/go-billy/v6 v6.0.0-20250906064328-0118fd22f1d9 // indirect
-	github.com/go-git/go-git/v6 v6.0.0-20250921083035-edb95f36f415 // indirect
+	github.com/go-git/go-git/v6 v6.0.0-20250922101824-23ffe67a3eb3 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
