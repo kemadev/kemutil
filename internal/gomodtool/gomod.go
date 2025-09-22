@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/kemadev/ci-cd/pkg/git"
+	"github.com/kemadev/go-framework/pkg/git"
 )
 
 var ErrRepoBasePathNil = fmt.Errorf("repository base path is nil")

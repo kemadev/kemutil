@@ -3,7 +3,8 @@ module github.com/kemadev/kemutil
 go 1.24.7
 
 require (
-	github.com/kemadev/ci-cd v0.22.1
+	github.com/kemadev/ci-cd v0.23.0
+	github.com/kemadev/go-framework v0.0.0-20250922085630-69a7fecea043
 	github.com/spf13/cobra v1.10.1
 )
 
@@ -31,6 +32,4 @@ require (
 	golang.org/x/exp v0.0.0-20250911091902-df9299821621 // indirect
 	golang.org/x/net v0.44.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
-	golang.org/x/term v0.35.0 // indirect
-	golang.org/x/text v0.29.0 // indirect
 )

@@ -185,7 +185,11 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 	latestGoVersionParts := strings.Split(string(latestGoVersionOutput), "\n")
 
 	if len(latestGoVersionParts) != expectedPartsNum {
-		return fmt.Errorf("unexpected output from go version command: %s: %w", latestGoVersionOutput, ErrGoVersionInvalid)
+		return fmt.Errorf(
+			"unexpected output from go version command: %s: %w",
+			latestGoVersionOutput,
+			ErrGoVersionInvalid,
+		)
 	}
 
 	latestGoVersion := strings.TrimPrefix(latestGoVersionParts[0], "go")
