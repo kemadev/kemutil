@@ -150,7 +150,12 @@ password ` + string(token) + `
 		for pos, arg := range baseArgs {
 			redacted := arg
 			if len(netrc) > 0 && strings.Contains(arg, netrc) {
-				redacted = netrc[0:(len(netrc)/4)] + "..."
+				redactedParts := strings.Split(redacted, netrc)
+				if len(redactedParts) != 2 {
+					return []string{"MALFORMED NETRC"}
+				}
+
+				redacted = strings.Join(redactedParts, netrc[0:(len(netrc)/4)]+"...")
 			}
 
 			redactedArgs[pos] = redacted
@@ -252,7 +257,12 @@ password ` + string(token) + `
 		for pos, arg := range baseArgs {
 			redacted := arg
 			if len(netrc) > 0 && strings.Contains(arg, netrc) {
-				redacted = netrc[0:(len(netrc)/4)] + "..."
+				redactedParts := strings.Split(redacted, netrc)
+				if len(redactedParts) != 2 {
+					return []string{"MALFORMED NETRC"}
+				}
+
+				redacted = strings.Join(redactedParts, netrc[0:(len(netrc)/4)]+"...")
 			}
 
 			redactedArgs[pos] = redacted
