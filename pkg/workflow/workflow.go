@@ -152,11 +152,12 @@ password ` + string(token) + `
 			if len(netrc) > 0 && redacted == netrc {
 				redacted = netrc[0:(len(netrc)/4)] + "..."
 			}
+
 			redactedArgs[pos] = redacted
 		}
 
 		return redactedArgs
-	}))
+	}()))
 
 	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 	err = syscall.Exec(binary, append([]string{binary}, baseArgs...), os.Environ())
