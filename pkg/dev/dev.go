@@ -14,6 +14,7 @@ import (
 
 	"github.com/kemadev/go-framework/pkg/git"
 	"github.com/spf13/cobra"
+	"github.com/kemadev/ci-cd/pkg/auth"
 )
 
 var ErrRepoURLInvalid = errors.New("repository URL is invalid")
@@ -84,8 +85,7 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 login git
 password ` + string(token) + `
 `
-		baseArgs = append(baseArgs, "-e")
-		baseArgs = append(baseArgs, "KEMA_NETRC="+netrc)
+		os.Setenv(auth.NetrcEnvVarKey, netrc)
 	}
 
 	baseArgs = append(baseArgs, "up")

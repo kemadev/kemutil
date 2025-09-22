@@ -13,6 +13,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/kemadev/ci-cd/pkg/auth"
 	"github.com/kemadev/go-framework/pkg/git"
 	"github.com/spf13/cobra"
 )
@@ -125,8 +126,7 @@ func Ci(cmd *cobra.Command, _ []string) error {
 login git
 password ` + string(token) + `
 `
-		baseArgs = append(baseArgs, "-e")
-		baseArgs = append(baseArgs, "KEMA_NETRC="+netrc)
+		os.Setenv(auth.NetrcEnvVarKey, netrc)
 	}
 
 	baseArgs = append(baseArgs, strings.TrimPrefix(imageURL.String(), "//"))
