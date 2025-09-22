@@ -119,6 +119,7 @@ func Ci(cmd *cobra.Command, _ []string) error {
 			"token",
 		}
 
+		// nosemgrep: gitlab.gosec.G204-1 // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 		com := exec.Command(ghBinary, ghArgs...)
 
 		token, err := com.CombinedOutput()
