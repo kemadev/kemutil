@@ -101,9 +101,9 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest && \
 	git config --global --add safe.directory /src
 
 COPY --link --from=debug-build /usr/local/bin/app /app
-COPY --link ./tool/dev/docker-entrypoint-dev.sh /usr/local/bin/docker-entrypoint-dev.sh
+COPY --link ./tool/dev/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint-dev.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 FROM dev AS debug
 
