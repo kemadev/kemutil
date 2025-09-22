@@ -58,16 +58,16 @@ FROM base AS build
 RUN --mount=type=cache,target=/root/go/pkg \
 	--mount=type=cache,target=/root/.cache \
 	--mount=type=bind,source=.,target=. \
-	go build -ldflags='-s -w' -o /usr/local/bin/app ./cmd/kemutil
+	go build -ldflags='-s -w' -o /usr/local/bin/app ./cmd/main
 
 FROM base AS debug-build
 
 RUN --mount=type=cache,target=/root/go/pkg \
-		--mount=type=cache,target=/root/.cache \
-		--mount=type=bind,source=.,target=. \
-		go build -gcflags="all=-N -l" -o /usr/local/bin/app ./cmd/kemutil
+	--mount=type=cache,target=/root/.cache \
+	--mount=type=bind,source=.,target=. \
+	go build -gcflags="all=-N -l" -o /usr/local/bin/app ./cmd/main
 
-FROM gcr.io/distroless/static-debian12:nonroot AS goreleaser
+FROM --platform=${BUILDPLATFORM} gcr.io/distroless/static-debian12:nonroot AS goreleaser
 
 LABEL org.opencontainers.image.authors="kemadev"
 LABEL org.opencontainers.image.url="ghcr.io/kemadev/kemutil"
@@ -76,7 +76,7 @@ LABEL org.opencontainers.image.source="https://github.com/kemadev/kemutil"
 LABEL org.opencontainers.image.vendor="kemadev"
 LABEL org.opencontainers.image.licenses="MPL-2.0"
 
-COPY kemutil /app
+COPY reqbigo /app
 
 ENTRYPOINT ["/app"]
 
@@ -101,7 +101,7 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest && \
 	git config --global --add safe.directory /src
 
 COPY --link --from=debug-build /usr/local/bin/app /app
-COPY --link ./tool/dev/docker-entrypoint-dev.sh /usr/local/bin/docker-entrypoint-dev.sh
+COPY --link ./tool/docker-entrypoint-dev.sh /usr/local/bin/docker-entrypoint-dev.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint-dev.sh"]
 
@@ -110,7 +110,7 @@ FROM dev AS debug
 ENTRYPOINT [ "dlv", "dap", "--listen", ":50000" ]
 
 # hadolint ignore=DL3007
-FROM gcr.io/distroless/static-debian12:nonroot AS main
+FROM --platform=${BUILDPLATFORM} gcr.io/distroless/static-debian12:nonroot AS main
 
 LABEL org.opencontainers.image.authors="kemadev"
 LABEL org.opencontainers.image.url="ghcr.io/kemadev/kemutil"

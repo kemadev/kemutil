@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/kemadev/ci-cd/pkg/filesfind"
-	"github.com/kemadev/kemutil/internal/app/gomodtool"
+	"github.com/kemadev/kemutil/internal/gomodtool"
 	"github.com/spf13/cobra"
 )
 
