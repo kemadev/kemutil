@@ -12,9 +12,9 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/kemadev/ci-cd/pkg/auth"
 	"github.com/kemadev/go-framework/pkg/git"
 	"github.com/spf13/cobra"
-	"github.com/kemadev/ci-cd/pkg/auth"
 )
 
 var ErrRepoURLInvalid = errors.New("repository URL is invalid")
@@ -51,6 +51,8 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 		profile,
 		"--file",
 		"./tool/dev/docker-compose.yaml",
+		"up",
+		"--build",
 	}
 
 	if ExportNetrc {
@@ -58,10 +60,12 @@ func StartLocal(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return fmt.Errorf("error getting git repository: %w", err)
 		}
+
 		machineParts := strings.Split(machine, "/")
 		if len(machineParts) < 1 {
 			return fmt.Errorf("error parsing git repository URL: %w", ErrRepoURLInvalid)
 		}
+
 		machine = machineParts[0]
 
 		ghBinary, err := exec.LookPath("gh")
@@ -87,9 +91,6 @@ password ` + string(token) + `
 `
 		os.Setenv(auth.NetrcEnvVarKey, netrc)
 	}
-
-	baseArgs = append(baseArgs, "up")
-	baseArgs = append(baseArgs, "--build")
 
 	if Live {
 		baseArgs = append(baseArgs, "--watch")

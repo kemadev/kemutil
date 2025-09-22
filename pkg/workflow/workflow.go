@@ -94,15 +94,19 @@ func Ci(cmd *cobra.Command, _ []string) error {
 		baseArgs = append(baseArgs, "-e", "RUNNER_SILENT=1")
 	}
 
+	var netrc string
+
 	if ExportNetrc {
 		machine, err := git.NewGitService().GetGitBasePath()
 		if err != nil {
 			return fmt.Errorf("error getting git repository: %w", err)
 		}
+
 		machineParts := strings.Split(machine, "/")
 		if len(machineParts) < 1 {
 			return fmt.Errorf("error parsing git repository URL: %w", ErrRepoURLInvalid)
 		}
+
 		machine = machineParts[0]
 
 		ghBinary, err := exec.LookPath("gh")
@@ -122,11 +126,11 @@ func Ci(cmd *cobra.Command, _ []string) error {
 			return fmt.Errorf("error getting git token command output: %w", err)
 		}
 
-		netrc := `machine ` + machine + `
+		netrc = `machine ` + machine + `
 login git
 password ` + string(token) + `
 `
-		os.Setenv(auth.NetrcEnvVarKey, netrc)
+		baseArgs = append(baseArgs, "-e", auth.NetrcEnvVarKey+"="+netrc)
 	}
 
 	baseArgs = append(baseArgs, strings.TrimPrefix(imageURL.String(), "//"))
@@ -136,7 +140,23 @@ password ` + string(token) + `
 		baseArgs = append(baseArgs, "--fix")
 	}
 
-	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", baseArgs))
+	slog.Debug("Running command", slog.Any("binary", binary), slog.Any("baseArgs", func() []string {
+		if netrc == "" {
+			return baseArgs
+		}
+
+		redactedArgs := make([]string, len(baseArgs))
+
+		for pos, arg := range baseArgs {
+			redacted := arg
+			if len(netrc) > 0 && redacted == netrc {
+				redacted = netrc[0:(len(netrc)/4)] + "..."
+			}
+			redactedArgs[pos] = redacted
+		}
+
+		return redactedArgs
+	}))
 
 	// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
 	err = syscall.Exec(binary, append([]string{binary}, baseArgs...), os.Environ())
