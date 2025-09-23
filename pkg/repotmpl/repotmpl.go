@@ -63,7 +63,7 @@ func Init(_ *cobra.Command, _ []string) error {
 
 	repoName := repoParts[2]
 
-	slog.Debug("found current repository", slog.String("repo", repoName))
+	slog.Debug("found current repository", slog.String("repository", repoName))
 
 	r, err := g.Clone(memory.NewStorage(), nil, &g.CloneOptions{
 		URL:           RepoTemplateURL.String(),
