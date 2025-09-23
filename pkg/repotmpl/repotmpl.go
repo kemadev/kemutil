@@ -100,7 +100,7 @@ func Init(_ *cobra.Command, _ []string) error {
 
 	filesBasePath := BaseTemplateSubDir + "/" + TargetTemplate
 
-	tree.Files().ForEach(func(file *object.File) error {
+	err = tree.Files().ForEach(func(file *object.File) error {
 		if !strings.HasPrefix(file.Name, filesBasePath) {
 			return nil
 		}
@@ -142,10 +142,15 @@ func Init(_ *cobra.Command, _ []string) error {
 			return fmt.Errorf("failed to write file contents to %s: %w", targetPath, err)
 		}
 
-		slog.Debug("copied file %q to %q", file.Name, targetPath)
+		slog.Debug("copied file", slog.String("source", file.Name), slog.String("dest", targetPath))
 
 		return nil
 	})
+	if err != nil {
+		return fmt.Errorf("error ooping over tree files: %w", err)
+	}
+
+	slog.Debug("repository initialized successfully", slog.String("repository", repoName))
 
 	return nil
 }
