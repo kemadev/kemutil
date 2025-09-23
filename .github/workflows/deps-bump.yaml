@@ -32,6 +32,6 @@ jobs:
           RENOVATE_TOKEN: ${{ secrets.RENOVATE_PAT }}
           RENOVATE_ENDPOINT: https://api.github.com
           RENOVATE_PLATFORM: github
-          RENOVATE_REPOSITORIES: "['kemadev/go-framework']"
+          RENOVATE_REPOSITORIES: "['kemadev/kemutil']"
           RENOVATE_PR_HOURLY_LIMIT: 10
         run: kema-runner deps-bump
