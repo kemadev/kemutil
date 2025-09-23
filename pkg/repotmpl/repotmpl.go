@@ -110,6 +110,8 @@ func Init(_ *cobra.Command, _ []string) error {
 			return nil
 		}
 
+		relativePath = strings.ReplaceAll(relativePath, RepositoryNameTemplateKey, repoName)
+
 		targetPath := filepath.Join(".", relativePath)
 
 		dir := filepath.Dir(targetPath)
@@ -148,6 +150,16 @@ func Init(_ *cobra.Command, _ []string) error {
 	})
 	if err != nil {
 		return fmt.Errorf("error ooping over tree files: %w", err)
+	}
+
+	pkg := filepath.Dir("pkg")
+	if err := os.MkdirAll(pkg, 0o755); err != nil {
+		return fmt.Errorf("failed to create directory %s: %w", pkg, err)
+	}
+
+	internal := filepath.Dir("internal")
+	if err := os.MkdirAll(internal, 0o755); err != nil {
+		return fmt.Errorf("failed to create directory %s: %w", internal, err)
 	}
 
 	slog.Debug("repository initialized successfully", slog.String("repository", repoName))
