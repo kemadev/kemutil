@@ -41,8 +41,8 @@ github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 h1:f+oWsMOmNPc8J
 github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8/go.mod h1:wcDNUvekVysuuOpQKo3191zZyTpiI6se1N1ULghS0sw=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
-github.com/kemadev/ci-cd v0.34.0 h1:lX9z6evgXnBSf9nCxbAH6VyucH3pOUm2g654CTA8kQQ=
-github.com/kemadev/ci-cd v0.34.0/go.mod h1:JtM0g1PhHyspeliGT4rf/4UC18gloPWlwfunB0qa57w=
+github.com/kemadev/ci-cd v0.35.0 h1:vdRq+X0I84v5szIMbihcVIWTR14r4xA+L/yIsmFd4D8=
+github.com/kemadev/ci-cd v0.35.0/go.mod h1:Sft64qqaBaxUYgOuSaCd43+hIai23AmCT2RetYAhhbo=
 github.com/kemadev/go-framework v0.8.0 h1:U6q+2xfeQ2qmtGw3kMgjrZ4MMMvQWEhVKLAwr6lrOVQ=
 github.com/kemadev/go-framework v0.8.0/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
 github.com/kevinburke/ssh_config v1.4.0 h1:6xxtP5bZ2E4NF5tuQulISpTO2z8XbtH8cg1PWkxoFkQ=
