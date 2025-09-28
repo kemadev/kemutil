@@ -5,7 +5,7 @@ go 1.24.7
 require (
 	github.com/go-git/go-git/v6 v6.0.0-20250923080731-ebc56f97b3d2
 	github.com/kemadev/ci-cd v0.34.0
-	github.com/kemadev/go-framework v0.8.0
+	github.com/kemadev/go-framework v0.13.0
 	github.com/spf13/cobra v1.10.1
 )
 

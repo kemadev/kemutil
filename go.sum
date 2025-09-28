@@ -43,8 +43,8 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/kemadev/ci-cd v0.34.0 h1:lX9z6evgXnBSf9nCxbAH6VyucH3pOUm2g654CTA8kQQ=
 github.com/kemadev/ci-cd v0.34.0/go.mod h1:JtM0g1PhHyspeliGT4rf/4UC18gloPWlwfunB0qa57w=
-github.com/kemadev/go-framework v0.8.0 h1:U6q+2xfeQ2qmtGw3kMgjrZ4MMMvQWEhVKLAwr6lrOVQ=
-github.com/kemadev/go-framework v0.8.0/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
+github.com/kemadev/go-framework v0.13.0 h1:MenPtshKArbK6LaMSMKm+e417OnVynkfhE9tIsONbDM=
+github.com/kemadev/go-framework v0.13.0/go.mod h1:RlVMQXyYjsliKzlCMWElQ08+A3lcUOap2cV5F9/R0Lo=
 github.com/kevinburke/ssh_config v1.4.0 h1:6xxtP5bZ2E4NF5tuQulISpTO2z8XbtH8cg1PWkxoFkQ=
 github.com/kevinburke/ssh_config v1.4.0/go.mod h1:q2RIzfka+BXARoNexmF9gkxEX7DmvbW9P4hIVx2Kg4M=
 github.com/klauspost/cpuid/v2 v2.3.0 h1:S4CRMLnYUhGeDFDqkGriYKdfoFlDnMtqTiI/sFzhA9Y=
