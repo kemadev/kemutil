@@ -70,17 +70,17 @@ config:
 	}
 	pulumiDevYaml := templatedFile{
 		Name: "Pulumi." + StackNameDev + ".yaml",
-		Content: `config: {}
+		Content: `config:
 `,
 	}
 	pulumiNextYaml := templatedFile{
 		Name: "Pulumi." + StackNameNext + ".yaml",
-		Content: `config: {}
+		Content: `config:
 `,
 	}
 	pulumiProdYaml := templatedFile{
 		Name: "Pulumi." + StackNameProd + ".yaml",
-		Content: `config: {}
+		Content: `config:
 `,
 	}
 	mainGo := templatedFile{
