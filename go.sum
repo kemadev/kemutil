@@ -15,8 +15,8 @@ github.com/caarlos0/svu/v3 v3.2.3/go.mod h1:nqIrauMefBEEY1LMrPHoZW+38NGcLb5Qa4VI
 github.com/cloudflare/circl v1.6.1 h1:zqIqSPIndyBh1bjLVVDHMPpVKqp8Su/V+6MeDzzQBQ0=
 github.com/cloudflare/circl v1.6.1/go.mod h1:uddAzsPgqdMAYatqJ0lsjX1oECcQLIlRpzZh3pJrofs=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
-github.com/cyphar/filepath-securejoin v0.4.1 h1:JyxxyPEaktOD+GAnqIqTf9A8tHyAG22rowi7HkoSU1s=
-github.com/cyphar/filepath-securejoin v0.4.1/go.mod h1:Sdj7gXlvMcPZsbhwhQ33GguGLDGQL7h7bg04C/+u9jI=
+github.com/cyphar/filepath-securejoin v0.5.0 h1:hIAhkRBMQ8nIeuVwcAoymp7MY4oherZdAxD+m0u9zaw=
+github.com/cyphar/filepath-securejoin v0.5.0/go.mod h1:Sdj7gXlvMcPZsbhwhQ33GguGLDGQL7h7bg04C/+u9jI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
@@ -43,8 +43,14 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/kemadev/ci-cd v0.34.0 h1:lX9z6evgXnBSf9nCxbAH6VyucH3pOUm2g654CTA8kQQ=
 github.com/kemadev/ci-cd v0.34.0/go.mod h1:JtM0g1PhHyspeliGT4rf/4UC18gloPWlwfunB0qa57w=
-github.com/kemadev/go-framework v0.8.0 h1:U6q+2xfeQ2qmtGw3kMgjrZ4MMMvQWEhVKLAwr6lrOVQ=
-github.com/kemadev/go-framework v0.8.0/go.mod h1:tdys7tLNkHW8A3kVUmBQKuxhTOGRgP5Nk+41wLY6n9Q=
+github.com/kemadev/go-framework v0.10.0 h1:AYTwqXY7Nk8p7TmKoM2ANhneA/KdK+2OBmkKO1ZmBYc=
+github.com/kemadev/go-framework v0.10.0/go.mod h1:9diuzJlYLFtQ+eJ3LKoq8OMUoyHZxpH7V0bCccr10LM=
+github.com/kemadev/infrastructure-components v0.9.0 h1:dRwJhzzhCV9qMxHMx+R4iFpFloGkOrU/cTjUlMpOvLc=
+github.com/kemadev/infrastructure-components v0.9.0/go.mod h1:2ETPWzju59bVnx4wtcWICkoPzjqlTNkT2DFoZlRy5W4=
+github.com/kemadev/infrastructure-components/deploy/infra/10-vars v0.0.0-20251004121533-b0c6058ee28f h1:bSmRFtvYZOP2twlIKwDSfAtHCdSG8sMGXyyzoWBUOls=
+github.com/kemadev/infrastructure-components/deploy/infra/10-vars v0.0.0-20251004121533-b0c6058ee28f/go.mod h1:nAT5rP/c15W5YeS8IsLT9yOiJ5yON+FRXpX/jcG/QYo=
+github.com/kemadev/infrastructure-components/deploy/pki/30-root-ca v0.0.0-20251004121533-b0c6058ee28f h1:7qW4TRwGHsvI899sAwj0hA66U5BKo0HPPcTvPkofe1M=
+github.com/kemadev/infrastructure-components/deploy/pki/30-root-ca v0.0.0-20251004121533-b0c6058ee28f/go.mod h1:zwLQSGCl3vn74JC3YUi/Sl+U40iLy07ux+1PTEp5/9o=
 github.com/kevinburke/ssh_config v1.4.0 h1:6xxtP5bZ2E4NF5tuQulISpTO2z8XbtH8cg1PWkxoFkQ=
 github.com/kevinburke/ssh_config v1.4.0/go.mod h1:q2RIzfka+BXARoNexmF9gkxEX7DmvbW9P4hIVx2Kg4M=
 github.com/klauspost/cpuid/v2 v2.3.0 h1:S4CRMLnYUhGeDFDqkGriYKdfoFlDnMtqTiI/sFzhA9Y=
