@@ -32,6 +32,14 @@ func init() {
 		Args:   cobra.NoArgs,
 		PreRun: setLogLevel,
 	}
+	setupSSHConfig := &cobra.Command{
+		Use:    "ssh-config",
+		Short:  "Create SSH config",
+		Long:   `Creates SSH configuration file for alldelared nodes, placing the file in ` + setup.ConfigPathBase,
+		RunE:   setup.SSHConfig,
+		Args:   cobra.NoArgs,
+		PreRun: setLogLevel,
+	}
 
 	rootCmd.AddCommand(setupCmd)
 	setupCmd.AddCommand(setupRootCA)
@@ -39,4 +47,8 @@ func init() {
 	setupMAASMachinesSSHPrivateKey.PersistentFlags().
 		StringVar(&setup.Region, "region", "", "Region to setup")
 	setupMAASMachinesSSHPrivateKey.MarkPersistentFlagRequired("region")
+	setupCmd.AddCommand(setupSSHConfig)
+	setupSSHConfig.PersistentFlags().
+		StringVar(&setup.Region, "region", "", "Region to setup")
+	setupSSHConfig.MarkPersistentFlagRequired("region")
 }
