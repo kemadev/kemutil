@@ -165,12 +165,16 @@ func SSHConfig(_ *cobra.Command, _ []string) error {
 
 	edgeHostsHostnames := []string{}
 	for name := range datacenters.RoutersInRegion(datacenter.Region(Region)) {
-		nameParts := strings.Split(name, "-")
-		if len(nameParts) != 5 {
-			return fmt.Errorf("router name %q: %w", name, ErrRouterNameInvalid)
+		routerPlacementInfo, err := datacenter.ParseRouterHostname(name)
+		if err != nil {
+			return fmt.Errorf(
+				"error parsing hostname for router %q: %w",
+				name,
+				err,
+			)
 		}
 
-		if nameParts[3] == string(router.TypeEdge) {
+		if routerPlacementInfo.Type == string(router.TypeEdge) {
 			edgeHostsHostnames = append(edgeHostsHostnames, name)
 		}
 	}
