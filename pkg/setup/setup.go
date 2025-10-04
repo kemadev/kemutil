@@ -143,7 +143,7 @@ func MAASMachinesSSHPrivateKey(_ *cobra.Command, _ []string) error {
 	err = os.WriteFile(
 		filePath,
 		[]byte(content),
-		os.FileMode(0o644),
+		os.FileMode(0o600),
 	)
 	if err != nil {
 		return fmt.Errorf("error writing to file: %w", err)
