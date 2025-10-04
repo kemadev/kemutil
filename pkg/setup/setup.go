@@ -28,6 +28,8 @@ import (
 //nolint:gochecknoglobals // Cobra flags are global
 var Region string
 
+var RootCA1CertFilePath = ConfigPathBase + RootCASubPath + contact.OrganizationName + "-root-ca-1.crt"
+
 const (
 	RootCASubPath = "pki/"
 	SSHSubPath    = "ssh/"
@@ -75,16 +77,14 @@ func RootCA(_ *cobra.Command, _ []string) error {
 		)
 	}
 
-	filePath := ConfigPathBase + RootCASubPath + contact.OrganizationName + "-root-ca-1.crt"
-
-	dir := filepath.Dir(filePath)
+	dir := filepath.Dir(RootCA1CertFilePath)
 	err = os.MkdirAll(dir, 0o755)
 	if err != nil {
 		return fmt.Errorf("error creating directory: %w", err)
 	}
 
 	err = os.WriteFile(
-		filePath,
+		RootCA1CertFilePath,
 		[]byte(content),
 		os.FileMode(0o644),
 	)
