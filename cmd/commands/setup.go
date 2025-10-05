@@ -24,11 +24,19 @@ func init() {
 		Args:   cobra.NoArgs,
 		PreRun: setLogLevel,
 	}
-	setupMAASMachinesSSHPrivateKey := &cobra.Command{
+	setupMAASMachinesSSHKey := &cobra.Command{
 		Use:    "maas-machines-ssh",
 		Short:  "Download MAAS machines SSH private key",
 		Long:   `Download MAAS machines SSH private key and place it in ` + setup.ConfigPathBase,
-		RunE:   setup.MAASMachinesSSHPrivateKey,
+		RunE:   setup.MAASMachinesSSHKeys,
+		Args:   cobra.NoArgs,
+		PreRun: setLogLevel,
+	}
+	setupMAASControllersSSHKey := &cobra.Command{
+		Use:    "maas-controllers-ssh",
+		Short:  "Download MAAS controllers SSH private key",
+		Long:   `Download MAAS controllers SSH private key and place it in ` + setup.ConfigPathBase,
+		RunE:   setup.MAASControllersSSHKeys,
 		Args:   cobra.NoArgs,
 		PreRun: setLogLevel,
 	}
@@ -43,10 +51,15 @@ func init() {
 
 	rootCmd.AddCommand(setupCmd)
 	setupCmd.AddCommand(setupRootCA)
-	setupCmd.AddCommand(setupMAASMachinesSSHPrivateKey)
-	setupMAASMachinesSSHPrivateKey.PersistentFlags().
+	setupCmd.AddCommand(setupMAASMachinesSSHKey)
+	setupMAASMachinesSSHKey.PersistentFlags().
 		StringVar(&setup.Region, "region", "", "Region to setup")
-	setupMAASMachinesSSHPrivateKey.MarkPersistentFlagRequired("region")
+	setupMAASMachinesSSHKey.MarkPersistentFlagRequired("region")
+	setupCmd.AddCommand(setupSSHConfig)
+	setupCmd.AddCommand(setupMAASControllersSSHKey)
+	setupMAASControllersSSHKey.PersistentFlags().
+		StringVar(&setup.Region, "region", "", "Region to setup")
+	setupMAASControllersSSHKey.MarkPersistentFlagRequired("region")
 	setupCmd.AddCommand(setupSSHConfig)
 	setupSSHConfig.PersistentFlags().
 		StringVar(&setup.Region, "region", "", "Region to setup")

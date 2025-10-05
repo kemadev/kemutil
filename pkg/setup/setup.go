@@ -97,9 +97,9 @@ func RootCA(_ *cobra.Command, _ []string) error {
 
 var ErrRegionUnspecified = errors.New("region flag ")
 
-// MAASMachinesSSHPrivateKey downloads MAAS-deployed machines SSH key
-func MAASMachinesSSHPrivateKey(_ *cobra.Command, _ []string) error {
-	slog.Info("Setting up MAAS machines private key for region " + Region)
+// MAASMachinesSSHKeys downloads MAAS-deployed machines SSH keys
+func MAASMachinesSSHKeys(_ *cobra.Command, _ []string) error {
+	slog.Info("Setting up MAAS machines SSH keys for region " + Region)
 
 	bin, err := exec.LookPath("pulumi")
 	if err != nil {
@@ -128,30 +128,100 @@ func MAASMachinesSSHPrivateKey(_ *cobra.Command, _ []string) error {
 		return fmt.Errorf("error unmarshalling command output: %w", err)
 	}
 
-	content, ok := res[maasExport.PulumiStackReferenceMAASMachinesPrivateKey].(string)
-	if !ok {
-		return fmt.Errorf(
-			"error extracting %q: %w",
-			maasExport.PulumiStackReferenceMAASMachinesPrivateKey,
-			err,
+	for _, refID := range []string{maasExport.PulumiStackReferenceMAASMachinesPrivateKey, maasExport.PulumiStackReferenceMAASMachinesPublicKey} {
+		content, ok := res[refID].(string)
+		if !ok {
+			return fmt.Errorf(
+				"error extracting %q: %w",
+				refID,
+				err,
+			)
+		}
+
+		filePath := ConfigPathBase + SSHSubPath + "maas-machines-" + Region + ".key"
+		if strings.Contains(refID, "Public") {
+			filePath += ".pub"
+		}
+
+		dir := filepath.Dir(filePath)
+		err = os.MkdirAll(dir, 0o755)
+		if err != nil {
+			return fmt.Errorf("error creating directory: %w", err)
+		}
+
+		err = os.WriteFile(
+			filePath,
+			[]byte(content),
+			os.FileMode(0o600),
 		)
+		if err != nil {
+			return fmt.Errorf("error writing to file: %w", err)
+		}
 	}
 
-	filePath := ConfigPathBase + SSHSubPath + "maas-machines-" + Region + ".key"
+	return nil
+}
 
-	dir := filepath.Dir(filePath)
-	err = os.MkdirAll(dir, 0o755)
+// MAASControllersSSHKeys downloads MAAS-deployed controllers SSH keys
+func MAASControllersSSHKeys(_ *cobra.Command, _ []string) error {
+	slog.Info("Setting up MAAS controllers SSH keys for region " + Region)
+
+	bin, err := exec.LookPath("pulumi")
 	if err != nil {
-		return fmt.Errorf("error creating directory: %w", err)
+		return fmt.Errorf("error finding binary: %w", err)
 	}
 
-	err = os.WriteFile(
-		filePath,
-		[]byte(content),
-		os.FileMode(0o600),
-	)
+	cmd := exec.Command(
+		bin,
+		[]string{
+			"stack",
+			"output",
+			"--stack",
+			"bpthdt4i/github-com-kemadev-infrastructure-components-deploy-infra-10-vars/" + Region,
+			"--show-secrets=true",
+			"--json",
+		}...)
+
+	out, err := cmd.Output()
 	if err != nil {
-		return fmt.Errorf("error writing to file: %w", err)
+		return fmt.Errorf("error running command: %w", err)
+	}
+
+	res := map[string]any{}
+	err = json.Unmarshal(out, &res)
+	if err != nil {
+		return fmt.Errorf("error unmarshalling command output: %w", err)
+	}
+
+	for _, refID := range []string{maasExport.PulumiStackReferenceMAASControllerPrivateKey, maasExport.PulumiStackReferenceMAASControllerPublicKey} {
+		content, ok := res[refID].(string)
+		if !ok {
+			return fmt.Errorf(
+				"error extracting %q: %w",
+				refID,
+				err,
+			)
+		}
+
+		filePath := ConfigPathBase + SSHSubPath + "maas-controllers-" + Region + ".key"
+		if strings.Contains(refID, "Public") {
+			filePath += ".pub"
+		}
+
+		dir := filepath.Dir(filePath)
+		err = os.MkdirAll(dir, 0o755)
+		if err != nil {
+			return fmt.Errorf("error creating directory: %w", err)
+		}
+
+		err = os.WriteFile(
+			filePath,
+			[]byte(content),
+			os.FileMode(0o600),
+		)
+		if err != nil {
+			return fmt.Errorf("error writing to file: %w", err)
+		}
 	}
 
 	return nil
