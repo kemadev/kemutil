@@ -19,6 +19,7 @@ import (
 	"github.com/kemadev/infrastructure-components/pkg/hardware/datacenter"
 	"github.com/kemadev/infrastructure-components/pkg/hardware/router"
 	"github.com/kemadev/infrastructure-components/pkg/private/constant/contact"
+	"github.com/kemadev/infrastructure-components/pkg/private/constant/host"
 	"github.com/kemadev/infrastructure-components/pkg/private/hardware/datacenter/datacenters"
 	"github.com/spf13/cobra"
 )
@@ -231,7 +232,7 @@ var ErrRouterNameInvalid = errors.New("router name is invalid")
 
 // SSHConfig creates an SSH config file from all delared nodes for given region
 func SSHConfig(_ *cobra.Command, _ []string) error {
-	slog.Info("Setting up MAAS machines private key for region " + Region)
+	slog.Info("Setting up MAAS machines SSH config for region " + Region)
 
 	edgeHostsHostnames := []string{}
 	for name := range datacenters.RoutersInRegion(datacenter.Region(Region)) {
@@ -250,24 +251,21 @@ func SSHConfig(_ *cobra.Command, _ []string) error {
 	}
 
 	confs := []string{}
-
-	baseConf := `Host *
-    KbdInteractiveAuthentication no
-    PreferredAuthentications publickey
-    ForwardX11 no
-    ForwardX11Trusted no
-    ForwardAgent no`
-
-	confs = append(confs, baseConf)
-
-	for name := range datacenters.RoutersInRegion(datacenter.Region(Region)) {
-		confs = append(confs, fmt.Sprintf(`Host %s
-    ProxyJump %s
-    HostName %s
-    Port %d
-    IdentityFile %s
-    User %s
-    RequestTTY yes`, name, edgeHostsHostnames[rand.Intn(len(edgeHostsHostnames))], name+".maas", 22, ConfigPathBase+SSHSubPath+"maas-machines-"+Region+".key", "ubuntu"))
+	for _, dc := range datacenters.InRegion(datacenter.Region(Region)) {
+		for routerType, routers := range dc.AllRoutersByType() {
+			for name, rtr := range routers {
+				conf := fmt.Sprintf(`Host %s
+	HostName %s
+	Port %d
+	IdentityFile %s
+	User %s
+	RequestTTY yes`, rtr.Name(dc.String(), routerType, name), host.HostNetworkRouter(dc, routerType, name).Host, 22, ConfigPathBase+SSHSubPath+"maas-controllers-"+Region+".key", "ubuntu")
+				if !(routerType == router.TypeEdge) {
+					conf += "\n    ProxyJump " + edgeHostsHostnames[rand.Intn(len(edgeHostsHostnames))]
+				}
+				confs = append(confs, conf)
+			}
+		}
 	}
 
 	content := strings.Join(confs, "\n\n")
