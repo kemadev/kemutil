@@ -48,6 +48,14 @@ func init() {
 		Args:   cobra.NoArgs,
 		PreRun: setLogLevel,
 	}
+	setupKubernetesCluster := &cobra.Command{
+		Use:    "kubernetes-cluster",
+		Short:  "Create cluster kubeconfig",
+		Long:   `Create cluster kubeconfig, placing the file in ` + setup.ConfigPathBase,
+		RunE:   setup.KubeconfigAdmin,
+		Args:   cobra.NoArgs,
+		PreRun: setLogLevel,
+	}
 
 	rootCmd.AddCommand(setupCmd)
 	setupCmd.AddCommand(setupRootCA)
@@ -64,4 +72,8 @@ func init() {
 	setupSSHConfig.PersistentFlags().
 		StringVar(&setup.Region, "region", "", "Region to setup")
 	setupSSHConfig.MarkPersistentFlagRequired("region")
+	setupCmd.AddCommand(setupKubernetesCluster)
+	setupKubernetesCluster.PersistentFlags().
+		StringVar(&setup.Cluster, "cluster", "", "Cluster to setup")
+	setupKubernetesCluster.MarkPersistentFlagRequired("cluster")
 }

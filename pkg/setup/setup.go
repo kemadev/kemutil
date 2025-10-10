@@ -15,11 +15,13 @@ import (
 	"strings"
 
 	maasExport "github.com/kemadev/infrastructure-components/deploy/infra/10-vars/export"
+	clusterExport "github.com/kemadev/infrastructure-components/deploy/kubernetes/40-control-plane/export"
 	rootCAExport "github.com/kemadev/infrastructure-components/deploy/pki/30-root-ca/export"
 	"github.com/kemadev/infrastructure-components/pkg/hardware/datacenter"
 	"github.com/kemadev/infrastructure-components/pkg/hardware/router"
 	"github.com/kemadev/infrastructure-components/pkg/private/constant/contact"
 	"github.com/kemadev/infrastructure-components/pkg/private/constant/host"
+	"github.com/kemadev/infrastructure-components/pkg/private/constant/pulumi"
 	"github.com/kemadev/infrastructure-components/pkg/private/hardware/datacenter/datacenters"
 	"github.com/spf13/cobra"
 )
@@ -29,11 +31,17 @@ import (
 //nolint:gochecknoglobals // Cobra flags are global
 var Region string
 
+// Cluster to setup.
+//
+//nolint:gochecknoglobals // Cobra flags are global
+var Cluster string
+
 var RootCA1CertFilePath = ConfigPathBase + RootCASubPath + contact.OrganizationName + "-root-ca-1.crt"
 
 const (
-	RootCASubPath = "pki/"
-	SSHSubPath    = "ssh/"
+	RootCASubPath     = "pki/"
+	SSHSubPath        = "ssh/"
+	KubernetesSubPath = "kubernetes/"
 )
 
 var ConfigPathBase = os.Getenv("HOME") + "/." + contact.OrganizationName + "/"
@@ -53,7 +61,7 @@ func RootCA(_ *cobra.Command, _ []string) error {
 			"stack",
 			"output",
 			"--stack",
-			"bpthdt4i/github-com-kemadev-infrastructure-components-deploy-pki-30-root-ca/main",
+			pulumi.OrganizationName + "/github-com-kemadev-infrastructure-components-deploy-pki-30-root-ca/main",
 			"--show-secrets=true",
 			"--json",
 		}...)
@@ -113,7 +121,7 @@ func MAASMachinesSSHKeys(_ *cobra.Command, _ []string) error {
 			"stack",
 			"output",
 			"--stack",
-			"bpthdt4i/github-com-kemadev-infrastructure-components-deploy-infra-10-vars/" + Region,
+			pulumi.OrganizationName + "/github-com-kemadev-infrastructure-components-deploy-infra-10-vars/" + Region,
 			"--show-secrets=true",
 			"--json",
 		}...)
@@ -178,7 +186,7 @@ func MAASControllersSSHKeys(_ *cobra.Command, _ []string) error {
 			"stack",
 			"output",
 			"--stack",
-			"bpthdt4i/github-com-kemadev-infrastructure-components-deploy-infra-10-vars/" + Region,
+			pulumi.OrganizationName + "/github-com-kemadev-infrastructure-components-deploy-infra-10-vars/" + Region,
 			"--show-secrets=true",
 			"--json",
 		}...)
@@ -282,6 +290,66 @@ func SSHConfig(_ *cobra.Command, _ []string) error {
 		filePath,
 		[]byte(content),
 		os.FileMode(0o644),
+	)
+	if err != nil {
+		return fmt.Errorf("error writing to file: %w", err)
+	}
+
+	return nil
+}
+
+// KubeconfigAdmin creates a kubeconfig for given cluster
+func KubeconfigAdmin(_ *cobra.Command, _ []string) error {
+	slog.Info("Setting up kubeconfig for cluster " + Cluster)
+
+	bin, err := exec.LookPath("pulumi")
+	if err != nil {
+		return fmt.Errorf("error finding binary: %w", err)
+	}
+
+	cmd := exec.Command(
+		bin,
+		[]string{
+			"stack",
+			"output",
+			"--stack",
+			pulumi.OrganizationName + "/github-com-kemadev-infrastructure-components-deploy-kubernetes-40-control-plane/" + Cluster,
+			"--show-secrets=true",
+			"--json",
+		}...)
+
+	out, err := cmd.Output()
+	if err != nil {
+		return fmt.Errorf("error running command: %w", err)
+	}
+
+	res := map[string]any{}
+	err = json.Unmarshal(out, &res)
+	if err != nil {
+		return fmt.Errorf("error unmarshalling command output: %w", err)
+	}
+
+	content, ok := res[clusterExport.PulumiStackReferenceKubernetesAdminKubeconfig].(string)
+	if !ok {
+		return fmt.Errorf(
+			"error extracting %q: %w",
+			clusterExport.PulumiStackReferenceKubernetesAdminKubeconfig,
+			err,
+		)
+	}
+
+	filePath := ConfigPathBase + KubernetesSubPath + Cluster + "-admin.yaml"
+
+	dir := filepath.Dir(filePath)
+	err = os.MkdirAll(dir, 0o755)
+	if err != nil {
+		return fmt.Errorf("error creating directory: %w", err)
+	}
+
+	err = os.WriteFile(
+		filePath,
+		[]byte(content),
+		os.FileMode(0o600),
 	)
 	if err != nil {
 		return fmt.Errorf("error writing to file: %w", err)
