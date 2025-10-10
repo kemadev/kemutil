@@ -3,7 +3,7 @@ module github.com/kemadev/kemutil
 go 1.24.7
 
 require (
-	github.com/go-git/go-git/v6 v6.0.0-20250929195514-145daf2492dd
+	github.com/go-git/go-git/v6 v6.0.0-20251009132922-75a182125145
 	github.com/kemadev/ci-cd v0.35.0
 	github.com/kemadev/go-framework v0.13.0
 	github.com/kemadev/infrastructure-components v0.10.0
@@ -31,7 +31,7 @@ require (
 	github.com/pjbgf/sha1cd v0.5.0 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
-	golang.org/x/crypto v0.42.0 // indirect
-	golang.org/x/net v0.44.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
+	golang.org/x/net v0.46.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
 )
