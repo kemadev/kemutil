@@ -94,8 +94,8 @@ func Update(_ *cobra.Command, _ []string) error {
 			command.Stdout = os.Stdout
 			command.Stderr = os.Stderr
 
-			err = command.Run()
-			if err := command.Run(); err != nil {
+			err := command.Run()
+			if err != nil {
 				errChan <- fmt.Errorf("error updating Go module %s: %w", mod, err)
 				return
 			}
@@ -158,7 +158,8 @@ func Tidy(_ *cobra.Command, _ []string) error {
 			command.Stdout = os.Stdout
 			command.Stderr = os.Stderr
 
-			if err := command.Run(); err != nil {
+			err := command.Run()
+			if err != nil {
 				errChan <- fmt.Errorf("error tidying Go module %s: %w", m, err)
 				return
 			}
@@ -249,8 +250,8 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 			command.Stdout = os.Stdout
 			command.Stderr = os.Stderr
 
-			err = command.Run()
-			if err := command.Run(); err != nil {
+			err := command.Run()
+			if err != nil {
 				errChan <- fmt.Errorf("error updating Go version in Go module %s: %w", mod, err)
 				return
 			}
