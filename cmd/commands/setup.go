@@ -63,7 +63,6 @@ func init() {
 	setupMAASMachinesSSHKey.PersistentFlags().
 		StringVar(&setup.Region, "region", "", "Region to setup")
 	setupMAASMachinesSSHKey.MarkPersistentFlagRequired("region")
-	setupCmd.AddCommand(setupSSHConfig)
 	setupCmd.AddCommand(setupMAASControllersSSHKey)
 	setupMAASControllersSSHKey.PersistentFlags().
 		StringVar(&setup.Region, "region", "", "Region to setup")
