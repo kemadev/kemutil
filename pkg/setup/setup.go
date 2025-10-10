@@ -274,6 +274,17 @@ func SSHConfig(_ *cobra.Command, _ []string) error {
 				confs = append(confs, conf)
 			}
 		}
+
+		for hostname := range dc.Machines() {
+			conf := fmt.Sprintf(`Host %s
+	HostName %s
+	ProxyCommand ssh %s nc -4 %%h %%p
+	Port %d
+	IdentityFile %s
+	User %s
+	RequestTTY yes`, hostname, hostname+".maas", edgeHostsHostnames[rand.Intn(len(edgeHostsHostnames))], 22, ConfigPathBase+SSHSubPath+"maas-machines-"+Region+".key", "ubuntu")
+			confs = append(confs, conf)
+		}
 	}
 
 	content := strings.Join(confs, "\n\n")
