@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path"
 	"strings"
+	"sync"
 
 	"github.com/kemadev/ci-cd/pkg/filesfind"
 	"github.com/kemadev/kemutil/internal/gomodtool"
@@ -76,22 +77,41 @@ func Update(_ *cobra.Command, _ []string) error {
 
 	baseArgs := []string{"get", "-u", "./..."}
 
+	var wg sync.WaitGroup
+	errChan := make(chan error, len(mods))
+
 	for _, mod := range mods {
-		slog.Debug("Updating Go module", slog.String("mod", mod))
+		wg.Add(1)
+		go func(m string) {
+			defer wg.Done()
 
-		// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
-		// nosemgrep: gitlab.gosec.G204-1 // Same
-		command := exec.Command(binary, baseArgs...)
-		command.Dir = path.Dir(mod)
-		command.Stdout = os.Stdout
-		command.Stderr = os.Stderr
+			slog.Debug("Updating Go module", slog.String("mod", mod))
 
-		err = command.Run()
+			// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
+			// nosemgrep: gitlab.gosec.G204-1 // Same
+			command := exec.Command(binary, baseArgs...)
+			command.Dir = path.Dir(mod)
+			command.Stdout = os.Stdout
+			command.Stderr = os.Stderr
+
+			err = command.Run()
+			if err := command.Run(); err != nil {
+				errChan <- fmt.Errorf("error updating Go module %s: %w", mod, err)
+				return
+			}
+
+			slog.Info("Updated Go module", slog.String("mod", mod))
+		}(mod)
+	}
+
+	wg.Wait()
+	close(errChan)
+
+	// Check for errors
+	for err := range errChan {
 		if err != nil {
-			return fmt.Errorf("error updating Go module %s: %w", mod, err)
+			return err
 		}
-
-		slog.Info("Updated Go module", slog.String("mod", mod))
 	}
 
 	return nil
@@ -122,22 +142,37 @@ func Tidy(_ *cobra.Command, _ []string) error {
 
 	baseArgs := []string{"mod", "tidy"}
 
+	var wg sync.WaitGroup
+	errChan := make(chan error, len(mods))
+
 	for _, mod := range mods {
-		slog.Debug("Tidying Go module", slog.String("mod", mod))
+		wg.Add(1)
+		go func(m string) {
+			defer wg.Done()
 
-		// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
-		// nosemgrep: gitlab.gosec.G204-1 // Same
-		command := exec.Command(binary, baseArgs...)
-		command.Dir = path.Dir(mod)
-		command.Stdout = os.Stdout
-		command.Stderr = os.Stderr
+			slog.Debug("Tidying Go module", slog.String("mod", m))
+			// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec
+			// nosemgrep: gitlab.gosec.G204-1
+			command := exec.Command(binary, baseArgs...)
+			command.Dir = path.Dir(m)
+			command.Stdout = os.Stdout
+			command.Stderr = os.Stderr
 
-		err = command.Run()
+			if err := command.Run(); err != nil {
+				errChan <- fmt.Errorf("error tidying Go module %s: %w", m, err)
+				return
+			}
+			slog.Info("Tidied Go module", slog.String("mod", m))
+		}(mod)
+	}
+
+	wg.Wait()
+	close(errChan)
+
+	for err := range errChan {
 		if err != nil {
-			return fmt.Errorf("error tidying Go module %s: %w", mod, err)
+			return err
 		}
-
-		slog.Info("Tidied Go module", slog.String("mod", mod))
 	}
 
 	return nil
@@ -197,22 +232,40 @@ func UpdateGoVersion(_ *cobra.Command, _ []string) error {
 
 	baseArgs := []string{"mod", "edit", "-go=" + latestGoVersion}
 
+	var wg sync.WaitGroup
+	errChan := make(chan error, len(mods))
+
 	for _, mod := range mods {
-		slog.Debug("Updating Go version", slog.String("mod", mod))
+		wg.Add(1)
+		go func(m string) {
+			defer wg.Done()
 
-		// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
-		// nosemgrep: gitlab.gosec.G204-1 // Same
-		command := exec.Command(binary, baseArgs...)
-		command.Dir = path.Dir(mod)
-		command.Stdout = os.Stdout
-		command.Stderr = os.Stderr
+			slog.Debug("Updating Go version", slog.String("mod", mod))
 
-		err = command.Run()
+			// nosemgrep: go.lang.security.audit.dangerous-syscall-exec.dangerous-syscall-exec // exec.LookPath() is used to locate the binary via $PATH, however we run on trusted developer machines
+			// nosemgrep: gitlab.gosec.G204-1 // Same
+			command := exec.Command(binary, baseArgs...)
+			command.Dir = path.Dir(mod)
+			command.Stdout = os.Stdout
+			command.Stderr = os.Stderr
+
+			err = command.Run()
+			if err := command.Run(); err != nil {
+				errChan <- fmt.Errorf("error updating Go version in Go module %s: %w", mod, err)
+				return
+			}
+
+			slog.Info("Updated Go version in Go module", slog.String("mod", mod))
+		}(mod)
+	}
+
+	wg.Wait()
+	close(errChan)
+
+	for err := range errChan {
 		if err != nil {
-			return fmt.Errorf("error updating Go version in Go module %s: %w", mod, err)
+			return err
 		}
-
-		slog.Info("Updated Go version in Go module", slog.String("mod", mod))
 	}
 
 	return nil
