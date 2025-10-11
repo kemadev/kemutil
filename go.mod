@@ -3,13 +3,13 @@ module github.com/kemadev/kemutil
 go 1.24.7
 
 require (
-	github.com/go-git/go-git/v6 v6.0.0-20250929195514-145daf2492dd
+	github.com/go-git/go-git/v6 v6.0.0-20251009132922-75a182125145
 	github.com/kemadev/ci-cd v0.35.0
-	github.com/kemadev/go-framework v0.13.0
-	github.com/kemadev/infrastructure-components v0.16.0
-	github.com/kemadev/infrastructure-components/deploy/infra/10-vars v0.0.0-20251010101033-d19b58e7f56d
-	github.com/kemadev/infrastructure-components/deploy/kubernetes/40-control-plane v0.0.0-20251010101757-dbf167556ebe
-	github.com/kemadev/infrastructure-components/deploy/pki/30-root-ca v0.0.0-20251010101033-d19b58e7f56d
+	github.com/kemadev/go-framework v0.14.0
+	github.com/kemadev/infrastructure-components v0.25.0
+	github.com/kemadev/infrastructure-components/deploy/infra/10-vars v0.0.0-20251011115744-747c40d2e824
+	github.com/kemadev/infrastructure-components/deploy/kubernetes/40-control-plane v0.0.0-20251011115744-747c40d2e824
+	github.com/kemadev/infrastructure-components/deploy/pki/30-root-ca v0.0.0-20251011115744-747c40d2e824
 	github.com/spf13/cobra v1.10.1
 )
 
@@ -23,7 +23,7 @@ require (
 	github.com/cyphar/filepath-securejoin v0.5.0 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-git/gcfg/v2 v2.0.2 // indirect
-	github.com/go-git/go-billy/v6 v6.0.0-20250929134028-f92173abd5f2 // indirect
+	github.com/go-git/go-billy/v6 v6.0.0-20251008191739-bf4aa134545f // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
