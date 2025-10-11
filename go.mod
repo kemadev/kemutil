@@ -8,7 +8,7 @@ require (
 	github.com/kemadev/go-framework v0.13.0
 	github.com/kemadev/infrastructure-components v0.16.0
 	github.com/kemadev/infrastructure-components/deploy/infra/10-vars v0.0.0-20251010101033-d19b58e7f56d
-	github.com/kemadev/infrastructure-components/deploy/kubernetes/40-control-plane v0.0.0-20251010101757-dbf167556ebe
+	github.com/kemadev/infrastructure-components/deploy/kubernetes/40-control-plane v0.18.0
 	github.com/kemadev/infrastructure-components/deploy/pki/30-root-ca v0.0.0-20251010101033-d19b58e7f56d
 	github.com/spf13/cobra v1.10.1
 )
